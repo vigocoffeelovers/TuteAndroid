@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:background="@drawable/wood_background"
+    tools:context=".GameActivity">
+
+    <LinearLayout
+        android:id="@+id/mano_izq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/carta_izq_1"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_2"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_3"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_4"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_5"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_6"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_7"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_8"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_9"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_izq_10"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mano_drc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/carta_drc_1"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_2"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_3"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_4"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_5"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_6"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_7"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_8"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_9"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_drc_10"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="-60dp"
+            app:srcCompat="@drawable/reverso_carta_tumbada"
+            android:onClick="cannot_play" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mano_arriba"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/mano_drc"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/carta_arb_1"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_2"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_3"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_4"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_5"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_6"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_7"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_8"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_9"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+        <ImageView
+            android:id="@+id/carta_arb_10"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="cannot_play" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mano_jugador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/carta_jp_1"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_2"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_3"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_4"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_5"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_6"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_7"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_8"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_9"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+        <ImageView
+            android:id="@+id/carta_jp_10"
+            android:layout_width="100dp"
+            android:layout_height="131dp"
+            android:layout_marginLeft="-50dp"
+            app:srcCompat="@drawable/reverso_carta"
+            android:onClick="play_card"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/singing_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Sing 40s"
+        android:onClick="sing_40"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sing 20s"
+            android:onClick="sing_20"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sing Tute"
+            android:onClick="sing_tute"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/triunfo"
+        android:layout_width="80dp"
+        android:layout_height="105dp"
+        android:layout_toRightOf="@id/mano_izq"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/reverso_carta"
+        android:onClick="carta_triunfo"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/triunfo"
+        android:layout_toLeftOf="@id/mano_arriba"
+        android:paddingTop="20dp"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:onClick="laderboard">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ally: 1 27"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="They: 3 45"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mano_arriba"
+        android:layout_above="@id/mano_jugador"
+        android:layout_toRightOf="@id/mano_izq"
+        android:layout_toLeftOf="@id/mano_drc"
+        android:padding="5dp"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@drawable/fieltro_tapete_cartas">
+
+            <ImageView
+                android:id="@+id/jugada_arrb2"
+                android:layout_width="80dp"
+                android:layout_height="105dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="135dp"
+                app:srcCompat="@drawable/reverso_carta_raro"
+                android:onClick="jugada_arriba"/>
+
+            <ImageView
+                android:id="@+id/jugada_arrb3"
+                android:layout_width="80dp"
+                android:layout_height="105dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@drawable/reverso_carta_raro"
+                android:onClick="jugada_izquierda" />
+
+            <ImageView
+                android:id="@+id/jugada_arrb4"
+                android:layout_width="80dp"
+                android:layout_height="105dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="40dp"
+                app:srcCompat="@drawable/reverso_carta_raro"
+                android:onClick="jugada_abajo" />
+
+            <ImageView
+                android:id="@+id/jugada_arrb"
+                android:layout_width="80dp"
+                android:layout_height="105dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="360dp"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@drawable/reverso_carta_raro"
+                android:onClick="jugada_derecha" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
