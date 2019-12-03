@@ -1,5 +1,7 @@
 package com.example.mynewapplication.game;
 
+import com.example.mynewapplication.GameActivity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -48,7 +50,7 @@ public class Table {
     }
 
     
-    private void initialDeal() {
+    public void initialDeal() {
         for (int i = 0; i < INIT_HAND_CARDS; i++) {
             for (int j = 0; j < players.size(); j++) {
                 dealCard(players.get(j), (i == INIT_HAND_CARDS - 1 && j == players.size() - 1));//If is the last deal to the last player, add the Triunfo
@@ -131,7 +133,7 @@ public class Table {
 
         System.out.println("The TRIUNFO is [" + Triunfo + "]");
         System.out.println();
-
+/*
         for (int i = 1; i <= TOTAL_PLAYS_NUMBER; i++) {
 
             System.out.println("#######################################################################");
@@ -193,6 +195,8 @@ public class Table {
             Utils.rotatePlayerArray(players, wonPlay.getKey()); //put the won player as the first one to start the next play
             currentPlay.clear();
         }
+
+ */
 
         players.sort(playersByPoints);
 
