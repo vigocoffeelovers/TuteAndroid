@@ -404,7 +404,7 @@
         android:layout_height="105dp"
         android:layout_toRightOf="@id/mano_izq"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/reverso_carta"
+        app:srcCompat="@drawable/reverso_carta_raro"
         android:onClick="carta_triunfo"/>
 
     <LinearLayout
