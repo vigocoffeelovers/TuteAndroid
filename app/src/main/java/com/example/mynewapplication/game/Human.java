@@ -11,24 +11,27 @@ public class Human extends Player {
         super(name);
     }
 
-
+    public Human(String name, Game game) {
+        super(name, game);
+    }
+    
     @Override
-    public Cards playCard(Table game) {
-
-        ArrayList<Cards> playableCards = checkPlayableCards(game);
+    public Cards playCard() {
+        
+        ArrayList<Cards> playableCards = checkPlayableCards();
         Cards chosenCard = null;
         String choosenNameCard = "";
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         do {
-
+            
             try {
                 choosenNameCard = reader.readLine();
             } catch (IOException ex) {
                 ex.printStackTrace();
                 System.exit(1);
             }
-
+            
             try {
                 chosenCard = Cards.valueOf(choosenNameCard);
                 if (!hand.contains(chosenCard)) {
@@ -45,7 +48,7 @@ public class Human extends Player {
                 System.out.print(" - ");
                 chosenCard = null;
             }
-
+            
         } while (chosenCard == null);
 
         hand.remove(chosenCard);
