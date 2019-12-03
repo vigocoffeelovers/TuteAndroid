@@ -6,13 +6,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mynewapplication.game.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GameActivity extends AppCompatActivity {
+
+
+    ArrayList<Player> players = new ArrayList<>(Arrays.asList(
+            new Player("Sergio"),
+            new Player("Marcos"),
+            new Player("Roi"),
+            new Player("Pablo")
+    ));
+
+    Game game = new Game(players);
+    Table table = game.getTable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +47,11 @@ public class GameActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
+
+        ImageView triunfoView = this.findViewById(R.id.triunfo);
+
+        table.initialDeal();
+        triunfoView.setImageResource(table.getTriunfo().getImage(0));
     }
 
     @Override
