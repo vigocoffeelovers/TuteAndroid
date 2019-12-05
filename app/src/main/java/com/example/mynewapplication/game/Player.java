@@ -14,6 +14,7 @@ public class Player {
     protected ArrayList<Cards> hand;
     protected ArrayList<Suits> sings;
     protected Game game;
+    protected int position;
     
     
     
@@ -86,7 +87,7 @@ public class Player {
         }
         
         for (ArrayList<Cards> s : singCards) { //40s
-            if (s.get(0).getSuit().equals(game.table.getTriunfo().getSuit())) {
+            if (s.get(0).getSuit().equals(game.getTable().getTriunfo().getSuit())) {
                 this.sings.add(s.get(0).getSuit());
                 return s;
             }
@@ -107,7 +108,7 @@ public class Player {
     protected Cards checkWonCard(ArrayList<Cards> cards) {
         
         Cards firstCard = cards.get(0);
-        Suits triunfo = game.table.getTriunfo().getSuit();
+        Suits triunfo = game.getTable().getTriunfo().getSuit();
         
         Cards bestCard = null;
         
@@ -188,7 +189,7 @@ public class Player {
      */
     protected ArrayList<Cards> checkPlayableCards() {
         
-        ArrayList<Cards> playedCards    = new ArrayList<>(game.table.getPlayedCards().values());
+        ArrayList<Cards> playedCards    = new ArrayList<>(game.getTable().getPlayedCards().values());
         
         if (playedCards.isEmpty()) {
             return hand;
@@ -196,7 +197,7 @@ public class Player {
         
         Cards winCard                   = checkWonCard(playedCards);
         Cards firstCard                 = playedCards.get(0);
-        Cards Triunfo                   = game.table.getTriunfo();
+        Cards Triunfo                   = game.getTable().getTriunfo();
         
         ArrayList<Cards> CartasParaAsistirAlPrimerJugador   = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit())                                                                ).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Cards> CartasParaSubirAlPrimerJugador     = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit()) && c.getNumber().compareTo(firstCard.getNumber()) > 0         ).collect(Collectors.toCollection(ArrayList::new));
@@ -258,14 +259,21 @@ public class Player {
     
     
     
-    public void joinGame(Game game) {
+    public void joinGame(Game game, int position) {
         this.game = game;
+        this.position=position;
     }
     
     public ArrayList<Cards> getHand() {
         return hand;
     }
-    
+
+    public int getPosition() {
+        return position;
+    }
+
+
+
     @Override
     public String toString() {
         return name.toUpperCase();

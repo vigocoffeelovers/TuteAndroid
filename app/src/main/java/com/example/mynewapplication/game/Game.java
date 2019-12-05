@@ -1,5 +1,7 @@
 package com.example.mynewapplication.game;
 
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -8,33 +10,50 @@ import java.util.Map;
  *
  * @author VigoCoffeeLovers
  */
-public class Game {
-    
+public class Game extends Thread {
+
+
+
+
     public static final String ANSI_RESET = "\033[0m";
     public static final String ANSI_BLUE = "\033[0;34m";
     public static final String ANSI_RED = "\033[0;31m";
     
-    private static final int INIT_HAND_CARDS = 10;
-    private static final int TOTAL_PLAYS_NUMBER = INIT_HAND_CARDS;
+    public static final int INIT_HAND_CARDS = 10;
+    public static final int TOTAL_PLAYS_NUMBER = INIT_HAND_CARDS;
     //private static final int INIT_SHUFFLE_PERMUTATIONS = 100; //TODO?
     
     private int FINISH_ROUND = 0;
-    
+    private int turn = -1;
     private final ArrayList<Player> players;
     private final ArrayList<Player> Team1;
     private final ArrayList<Player> Team2;
     private int pointsTeam1;
     private int pointsTeam2;
-    
-    public Table table;
-    
-    
-    
+    private ImageView triunfoView;
+    private ImageView[] imagesHand;
+    private ImageView[] imagesBoard;
+
+    private Table table;
+
+    public Table getTable() {
+        return table;
+    }
+
+    public Game(ArrayList<Player> players,ImageView triunfoView,ImageView[] imagesHand,ImageView[] imagesBoard){
+        this(players);
+        this.triunfoView=triunfoView;
+        this.imagesBoard=imagesBoard;
+        this.imagesHand=imagesHand;
+    }
+
+
     public Game(ArrayList<Player> players) {
         table = new Table(players);
         this.players = players;
+        int i =0;
         for (Player p : players)
-            p.joinGame(this);
+            p.joinGame(this, i++);
         Team1 = new ArrayList<>();
         Team2 = new ArrayList<>();
         Team1.add(players.get(0));
@@ -45,7 +64,7 @@ public class Game {
 
     
     
-    private void finishRound(int team) {
+    public void finishRound(int team) {
         if (team != 0) 
             System.out.println(ANSI_RED + " ####### CONGRATULATIONS, the team " + team + " has won this round ###### " + ANSI_RESET);
         else
@@ -55,7 +74,7 @@ public class Game {
     
     
     
-    private Map.Entry<Player, Cards> checkWonCard() {
+    public Map.Entry<Player, Cards> checkWonCard() {
         Player jugadorGanador = null;
         
         ArrayList<Map.Entry<Player, Cards>> plays = new ArrayList<>(table.getPlayedCards().entrySet());
@@ -108,7 +127,7 @@ public class Game {
     
     
     
-    private void initialDeal() {
+    public void initialDeal() {
         for (int i = 0; i < INIT_HAND_CARDS; i++) {
             for (int j = 0; j < players.size(); j++) {
                 dealCard(players.get(j), (i == INIT_HAND_CARDS - 1 && j == players.size() - 1));//If is the last deal to the last player, add the Triunfo
@@ -118,7 +137,7 @@ public class Game {
     
     
     
-    private Cards dealCard(Player player, boolean Triunfo) {
+    public Cards dealCard(Player player, boolean Triunfo) {
         Cards dealingCard = table.getDeck().get(0);
         player.receiveCard(dealingCard);
         if (Triunfo) {
@@ -130,13 +149,13 @@ public class Game {
     
     
     
-    private Cards askForCard(Player player) {
+    public Cards askForCard(Player player) {
         return player.playCard();
     }
 
     
     
-    private ArrayList<Cards> askForSing(Player player) {
+    public ArrayList<Cards> askForSing(Player player) {
         return player.sing();
     }
     
@@ -256,9 +275,20 @@ public class Game {
 
     }
 
+    public void startGameAndroid(){
+        System.out.println("Entramos gente");
 
-    
-    
+        this.start();
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+    /*
     public static void main(String[] args) {
 
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(
@@ -272,6 +302,6 @@ public class Game {
         
         game.startGameCLI();
 
-    }
+    }*/
 
 }

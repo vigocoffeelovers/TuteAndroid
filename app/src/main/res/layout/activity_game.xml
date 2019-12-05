@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="5dp"
@@ -289,10 +290,10 @@
 
         <ImageView
             android:id="@+id/carta_jp_1"
-            android:layout_width="100dp"
+            android:layout_width="102dp"
             android:layout_height="131dp"
-            app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"
+            app:srcCompat="@drawable/reverso_carta" />
 
         <ImageView
             android:id="@+id/carta_jp_2"
@@ -300,7 +301,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_3"
@@ -308,7 +309,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_4"
@@ -316,7 +317,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_5"
@@ -324,7 +325,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_6"
@@ -332,7 +333,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_7"
@@ -340,7 +341,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_8"
@@ -348,7 +349,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_9"
@@ -356,7 +357,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_10"
@@ -364,7 +365,7 @@
             android:layout_height="131dp"
             android:layout_marginLeft="-50dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
     </LinearLayout>
 
@@ -452,7 +453,7 @@
             android:background="@drawable/fieltro_tapete_cartas">
 
             <ImageView
-                android:id="@+id/jugada_arrb2"
+                android:id="@+id/jugada_arriba"
                 android:layout_width="80dp"
                 android:layout_height="105dp"
                 android:layout_alignParentTop="true"
@@ -461,7 +462,7 @@
                 android:onClick="jugada_arriba"/>
 
             <ImageView
-                android:id="@+id/jugada_arrb3"
+                android:id="@+id/jugada_izquierda"
                 android:layout_width="80dp"
                 android:layout_height="105dp"
                 android:layout_alignParentTop="true"
@@ -471,7 +472,7 @@
                 android:onClick="jugada_izquierda" />
 
             <ImageView
-                android:id="@+id/jugada_arrb4"
+                android:id="@+id/jugada_abajo"
                 android:layout_width="80dp"
                 android:layout_height="105dp"
                 android:layout_alignParentTop="true"
@@ -481,7 +482,7 @@
                 android:onClick="jugada_abajo" />
 
             <ImageView
-                android:id="@+id/jugada_arrb"
+                android:id="@+id/jugada_derecha"
                 android:layout_width="80dp"
                 android:layout_height="105dp"
                 android:layout_alignParentTop="true"

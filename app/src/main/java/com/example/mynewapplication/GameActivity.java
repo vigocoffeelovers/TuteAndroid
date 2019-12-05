@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,18 +20,27 @@ import com.example.mynewapplication.game.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GameActivity extends AppCompatActivity {
 
 
+public class GameActivity extends AppCompatActivity{
+    public final static int SKIN_ID = 0;
+
+    public static int clickedId;
+    public static final Object sem = new Object();
     ArrayList<Player> players = new ArrayList<>(Arrays.asList(
-            new Player("Sergio"),
+            new Human("Sergio"),
             new Player("Marcos"),
             new Player("Roi"),
             new Player("Pablo")
     ));
 
-    Game game = new Game(players);
-    Table table = game.getTable();
+
+    Game game;
+    Table table;
+    ImageView triunfoView;
+    ImageView[] imagesHand = new ImageView[10];
+    ImageView[] imagesBoard = new ImageView[4];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +58,35 @@ public class GameActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
 
-        ImageView triunfoView = this.findViewById(R.id.triunfo);
+        triunfoView = this.findViewById(R.id.triunfo);
+        imagesHand = new ArrayList<>(Arrays.asList(
+                this.findViewById(R.id.carta_jp_1),
+                this.findViewById(R.id.carta_jp_2),
+                this.findViewById(R.id.carta_jp_3),
+                this.findViewById(R.id.carta_jp_4),
+                this.findViewById(R.id.carta_jp_5),
+                this.findViewById(R.id.carta_jp_6),
+                this.findViewById(R.id.carta_jp_7),
+                this.findViewById(R.id.carta_jp_8),
+                this.findViewById(R.id.carta_jp_9),
+                this.findViewById(R.id.carta_jp_10)
+        )).toArray(imagesHand);
 
-        table.initialDeal();
-        triunfoView.setImageResource(table.getTriunfo().getImage(0));
+
+        imagesBoard = new ArrayList<>(Arrays.asList(
+                this.findViewById(R.id.jugada_abajo),
+                this.findViewById(R.id.jugada_derecha),
+                this.findViewById(R.id.jugada_arriba),
+                this.findViewById(R.id.jugada_izquierda)
+                )).toArray(imagesBoard);
+        game = new Game(players,triunfoView,imagesHand,imagesBoard);
+        table = game.getTable();
+
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -77,6 +111,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void sing_40(View view) {
+        VivaCacha v = new VivaCacha(triunfoView);
+        v.start();
         Toast.makeText(getApplicationContext(), "You sang the 40s, Congrats!!", Toast.LENGTH_LONG).show();
     }
 
@@ -92,8 +128,15 @@ public class GameActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Just focus on your cards", Toast.LENGTH_LONG).show();
     }
 
-    public void play_card(View view) {
-        Toast.makeText(getApplicationContext(), "Yep, that's a card, well touched", Toast.LENGTH_LONG).show();
+    public void click_card(View view) {
+        if (game.getTurn()==0){
+            clickedId = view.getId();
+            synchronized (sem){
+                notify();
+            }
+        }else {
+            Toast.makeText(getApplicationContext(), "It is not your turn, don't be hasty!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void jugada_arriba(View view) {
@@ -118,5 +161,41 @@ public class GameActivity extends AppCompatActivity {
 
     public void laderboard(View view) {
         Toast.makeText(getApplicationContext(), "You will be losing until we actually make the game, sorry", Toast.LENGTH_LONG).show();
+    }
+
+    public void sacarTexto(){
+        Toast.makeText(getApplicationContext(), "Hola", Toast.LENGTH_LONG).show();
+    }
+
+}
+
+class VivaCacha extends Thread {
+
+    ImageView cacha;
+
+    public VivaCacha(ImageView cacha) {
+        this.cacha = cacha;
+    }
+
+    @Override
+    public void run() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                cacha.setImageResource(R.drawable.cacha);
+            }
+        });
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                cacha.setImageResource(R.drawable.sergio);
+            }
+        });
     }
 }
