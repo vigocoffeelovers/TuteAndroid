@@ -159,6 +159,8 @@ public class GameActivity extends AppCompatActivity{
             clickedId = view.getId();
             Cards clickedCard = cardsHand.get(clickedId);
             System.out.println("Player plays: " + clickedCard.getNumber());
+            cardsHand.remove(clickedId);
+            view.setVisibility(View.GONE);
             gameThread.humanPlayed(clickedCard);
         }else {
             Toast.makeText(getApplicationContext(), "It is not your turn, don't be hasty!", Toast.LENGTH_LONG).show();
@@ -262,13 +264,14 @@ class GameThread extends Thread {
             System.out.println("PLayer's turn");
             return;
         }
-
-        System.out.println("Non human played: " + playedCard.getNumber() + "of: " + playedCard.getSuit());
+        System.out.println("Non human player: "+ nextplayer + " played: " + playedCard.getNumber() + "of: " + playedCard.getSuit());
+        int temp = nextplayer;
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 // TODO: Por alguna razón esto cambia las cartas en el imsmo imageviex (probablemnyte sea alguna gilipollez)
-                gameActivity.imagesBoard[nextplayer].setImageResource(playedCard.getImage(gameActivity.DECK));
+                System.out.println("Changing card: " + temp);
+                gameActivity.imagesBoard[temp].setImageResource(playedCard.getImage(gameActivity.DECK));
             }
         });
         onBoardCards[nextplayer] = playedCard;
@@ -285,6 +288,7 @@ class GameThread extends Thread {
         gameActivity.imagesBoard[nextplayer].setImageResource(playedCard.getImage(gameActivity.DECK));
         onBoardCards[0] = playedCard;
         nextplayer = Utils.nextPlayer(nextplayer);
+        currentGame.table.addPlayedCard(gameActivity.players.get(0),playedCard); //The user will always be player 0
         System.out.println("Next player: " + nextplayer);
         if((--playsUntilEoRound) < 0) {
             endOfRound(currentGame);

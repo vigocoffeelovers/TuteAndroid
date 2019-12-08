@@ -39,6 +39,10 @@ public class Table {
     public Cards getTriunfo() {
         return Triunfo;
     }
+
+    public void addPlayedCard(Player p, Cards c) {
+        currentPlay.put(p,c);
+    }
     
     
     public Map<Player,Cards> getPlayedCards() {
