@@ -19,13 +19,21 @@ import com.example.mynewapplication.game.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.HashMap;
 
 
 public class GameActivity extends AppCompatActivity{
     public final static int SKIN_ID = 0;
 
+    //For now static constants, in future will be suitables on the setting smenu
+    public final static int DECK = 0;
+    public final static int GAMES_TO_WIN = 5;
+
+
+    //Used to obtain the id of a clicked View (the card clicked)
     public static int clickedId;
+    GameThread gameThread;
+    //Our players (the human class references the real player, while the others are just the AIs)
     public static final Object sem = new Object();
     ArrayList<Player> players = new ArrayList<>(Arrays.asList(
             new Human("Sergio"),
@@ -34,17 +42,17 @@ public class GameActivity extends AppCompatActivity{
             new Player("Pablo")
     ));
 
-
-    Game game;
-    Table table;
+    //Cards Views (the board cards will correspond with the ORIGINAL players order -being the first one the player and continuing clockwise-)
     ImageView triunfoView;
     ImageView[] imagesHand = new ImageView[10];
+    HashMap<Integer, Cards> cardsHand = new HashMap<Integer, Cards>();
     ImageView[] imagesBoard = new ImageView[4];
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //We will activate all fullscreen options for the game window
         this.getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -58,6 +66,7 @@ public class GameActivity extends AppCompatActivity{
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
 
+        //Initializing the views
         triunfoView = this.findViewById(R.id.triunfo);
         imagesHand = new ArrayList<>(Arrays.asList(
                 this.findViewById(R.id.carta_jp_1),
@@ -72,22 +81,21 @@ public class GameActivity extends AppCompatActivity{
                 this.findViewById(R.id.carta_jp_10)
         )).toArray(imagesHand);
 
-
         imagesBoard = new ArrayList<>(Arrays.asList(
                 this.findViewById(R.id.jugada_abajo),
                 this.findViewById(R.id.jugada_derecha),
                 this.findViewById(R.id.jugada_arriba),
                 this.findViewById(R.id.jugada_izquierda)
                 )).toArray(imagesBoard);
-        game = new Game(players,triunfoView,imagesHand,imagesBoard);
-        table = game.getTable();
 
-
+        gameThread = new GameThread(this);
+        gameThread.start();
     }
 
 
-
-
+    /**
+     * We will change this function to ensure the player actually wants to leave the game
+     */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
@@ -110,92 +118,203 @@ public class GameActivity extends AppCompatActivity{
         builder.show();
     }
 
+    /**
+     * This metoth will be implemented when singing become not automatic
+     * @param view
+     */
     public void sing_40(View view) {
-        VivaCacha v = new VivaCacha(triunfoView);
-        v.start();
         Toast.makeText(getApplicationContext(), "You sang the 40s, Congrats!!", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * This metoth will be implemented when singing become not automatic
+     * @param view
+     */
     public void sing_20(View view) {
         Toast.makeText(getApplicationContext(), "You sang the 20s, Congrats!!", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * This metoth will be implemented when singing become not automatic
+     * @param view
+     */
     public void sing_tute(View view) {
         Toast.makeText(getApplicationContext(), "TUTE!! Are you cheating??", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * This warning will pop up when the user tries to play enemy cards (or at lest just touch them...)
+     * @param view
+     */
     public void cannot_play(View view) {
         Toast.makeText(getApplicationContext(), "Just focus on your cards", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Plays a card if is the correct time to do it (otherwise will objurgate the user)
+     * @param view
+     */
     public void click_card(View view) {
-        if (game.getTurn()==0){
+        if (gameThread.getNextplayer() == 0){
             clickedId = view.getId();
-            synchronized (sem){
-                notify();
-            }
+            Cards clickedCard = cardsHand.get(clickedId);
+            System.out.println("Player plays: " + clickedCard.getNumber());
+            gameThread.humanPlayed(clickedCard);
         }else {
             Toast.makeText(getApplicationContext(), "It is not your turn, don't be hasty!", Toast.LENGTH_LONG).show();
         }
     }
 
+    public void setCardInvisible(){
+        //TODO
+    }
+
+    /**
+     * This functions will just notify the user which player played each card on the board
+     * @param view
+     */
     public void jugada_arriba(View view) {
-        Toast.makeText(getApplicationContext(), "Here will be the ally played cards", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Ally played cards", Toast.LENGTH_LONG).show();
     }
-
     public void jugada_abajo(View view) {
-        Toast.makeText(getApplicationContext(), "Here will be your played cards", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Your played cards", Toast.LENGTH_LONG).show();
     }
-
     public void jugada_izquierda(View view) {
-        Toast.makeText(getApplicationContext(), "Here will be the left enemy played cards", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Left enemy played cards", Toast.LENGTH_LONG).show();
     }
-
     public void jugada_derecha(View view) {
-        Toast.makeText(getApplicationContext(), "Here will be the right enemy played cards", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Right enemy played cards", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * We could just remove this, but it still funny, isn't it?
+     * @param view
+     */
     public void carta_triunfo(View view) {
         Toast.makeText(getApplicationContext(), "Yeah this is the Triunfo", Toast.LENGTH_LONG).show();
     }
 
+    //TODO: remove
     public void laderboard(View view) {
         Toast.makeText(getApplicationContext(), "You will be losing until we actually make the game, sorry", Toast.LENGTH_LONG).show();
     }
 
-    public void sacarTexto(){
-        Toast.makeText(getApplicationContext(), "Hola", Toast.LENGTH_LONG).show();
-    }
-
 }
 
-class VivaCacha extends Thread {
+/**
+ * TODO
+ *
+ */
+class GameThread extends Thread {
 
-    ImageView cacha;
+    GameActivity gameActivity;
+    int playsUntilEoRound = 3;
+    int roundsUntilEoGame = 9;
+    Cards[] onBoardCards = new Cards[4];
+    int startingPlayer = 0;
+    int nextplayer = -1;
+    int allyGames = 0;
+    int enemyGames = 0;
+    public Game currentGame;
 
-    public VivaCacha(ImageView cacha) {
-        this.cacha = cacha;
+    public GameThread(GameActivity gameActivity) {
+        this.gameActivity = gameActivity;
     }
 
     @Override
     public void run() {
+        newGame();
+        newRound(currentGame);
+    }
+
+    /**
+     * TODO: función de repartir
+     */
+    public void newGame(){
+        currentGame = new Game(gameActivity.players);
+        currentGame.initialDeal();
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                cacha.setImageResource(R.drawable.cacha);
+                gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
+                for (int i=0; i <10 ; i++) {
+                    gameActivity.imagesHand[i].setImageResource(currentGame.getPlayers().get(0).getHand().get(i).getImage(gameActivity.DECK));
+                    gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), currentGame.getPlayers().get(0).getHand().get(i));
+                }
             }
         });
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        nextplayer = startingPlayer;
+        startingPlayer = Utils.nextPlayer(startingPlayer);
+    }
+
+    public void newRound(Game game){
+            roundsUntilEoGame = 4;
+            playNextPlayer(game);
+    }
+
+    /**
+     *  Asks the next player to play a card (if the player is a machine it will play it, if it is a human this function will end -see Human.playCard for more info-)
+     */
+    public void playNextPlayer(Game game) {
+        ArrayList<Player> players = game.getPlayers();
+        Cards playedCard = players.get(nextplayer).playCard();
+        if (playedCard == null){
+            System.out.println("PLayer's turn");
+            return;
         }
 
+        System.out.println("Non human played: " + playedCard.getNumber() + "of: " + playedCard.getSuit());
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                cacha.setImageResource(R.drawable.sergio);
+                // TODO: Por alguna razón esto cambia las cartas en el imsmo imageviex (probablemnyte sea alguna gilipollez)
+                gameActivity.imagesBoard[nextplayer].setImageResource(playedCard.getImage(gameActivity.DECK));
             }
         });
+        onBoardCards[nextplayer] = playedCard;
+        nextplayer = Utils.nextPlayer(nextplayer);
+        if((--playsUntilEoRound) < 0) {
+            endOfRound(game);
+        }else{
+            playNextPlayer(game);
+        }
+    }
+
+    void humanPlayed(Cards playedCard){
+        System.out.println("Changing card");
+        gameActivity.imagesBoard[nextplayer].setImageResource(playedCard.getImage(gameActivity.DECK));
+        onBoardCards[0] = playedCard;
+        nextplayer = Utils.nextPlayer(nextplayer);
+        System.out.println("Next player: " + nextplayer);
+        if((--playsUntilEoRound) < 0) {
+            endOfRound(currentGame);
+        }else{
+            playNextPlayer(currentGame);
+        }
+    }
+
+    private void endOfRound(Game game) {
+        int winnerId = - 1;
+        Cards wonCard = game.checkWonCard(new ArrayList<>(Arrays.asList(onBoardCards)));
+        for (int i = 0; i < 4; i++) {
+            if(onBoardCards[i] == wonCard){
+                winnerId = i;
+                break;
+            }
+        }
+        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards))));
+        if ((--roundsUntilEoGame) < 0){
+            endOfGame(game);
+        } else {
+            newRound(game);
+        }
+    }
+
+    private void endOfGame(Game game) {
+
+    }
+
+    public int getNextplayer() {
+        return nextplayer;
     }
 }
