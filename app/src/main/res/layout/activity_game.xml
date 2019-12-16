@@ -283,7 +283,7 @@
     <LinearLayout
         android:id="@+id/mano_jugador"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="131dp"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true">
@@ -410,30 +410,82 @@
         android:onClick="carta_triunfo"/>
 
     <LinearLayout
+        android:id="@+id/scoreboardLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/triunfo"
-        android:layout_toLeftOf="@id/mano_arriba"
-        android:paddingTop="20dp"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/mano_arriba"
+        android:layout_toRightOf="@id/triunfo"
+        android:onClick="laderboard"
         android:orientation="vertical"
-        android:onClick="laderboard">
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ally: 1 27"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/allyScoreboardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="They: 3 45"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/allyTeamName"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ally:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/allyTeamGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/allyTeamPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/enemyScoreboardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/enemyTeamName"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Enemy:"
+                android:textSize="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/enemyTeamGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textSize="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/enemyTeamPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </LinearLayout>
 
     </LinearLayout>
 

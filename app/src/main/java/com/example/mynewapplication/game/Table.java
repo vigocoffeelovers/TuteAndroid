@@ -41,6 +41,7 @@ public class Table {
     }
 
     public void addPlayedCard(Player p, Cards c) {
+        p.removeCard(c);
         currentPlay.put(p,c);
     }
     
