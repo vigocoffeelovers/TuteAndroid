@@ -58,7 +58,6 @@ public class Player {
     public Cards playCard() {
         ArrayList<Cards> playableCards = checkPlayableCards();
         Cards chosen_card = playableCards.get((int)(Math.random()*playableCards.size())); //TODO Now is being choosing a random card
-        hand.remove(chosen_card);
         return chosen_card;
     }
     
@@ -115,7 +114,7 @@ public class Player {
             
             if (bestCard == null && c.getSuit().equals(triunfo)) {
                 bestCard = c;
-            } else if (c.getSuit().equals(triunfo) && c.compareTo(bestCard) == 1) {
+            } else if (c.getSuit().equals(triunfo) && c.compareTo(bestCard) > 0) {
                 bestCard = c;
             }
             
@@ -124,7 +123,7 @@ public class Player {
         if (bestCard == null) {
             bestCard = firstCard;
             for (Cards c : cards) {
-                if (c.getSuit().equals(bestCard.getSuit()) && c.getNumber().compareTo(bestCard.getNumber()) == 1) { //si es del mismo palo y de mayor valor
+                if (c.getSuit().equals(bestCard.getSuit()) && c.getNumber().compareTo(bestCard.getNumber()) > 0) { //si es del mismo palo y de mayor valor
                     bestCard = c;
                 }
             }
@@ -186,38 +185,40 @@ public class Player {
      * Calculate the cards which can be played in the current play from the player hand.
      * @return a list with the playable cards
      */
-    protected ArrayList<Cards> checkPlayableCards() {
+    public ArrayList<Cards> checkPlayableCards() {
         
         ArrayList<Cards> playedCards    = new ArrayList<>(game.table.getPlayedCards().values());
         
         if (playedCards.isEmpty()) {
             return hand;
         }
-        
+        System.out.println(playedCards);
         Cards winCard                   = checkWonCard(playedCards);
         Cards firstCard                 = playedCards.get(0);
         Cards Triunfo                   = game.table.getTriunfo();
         
         ArrayList<Cards> CartasParaAsistirAlPrimerJugador   = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit())                                                                ).collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<Cards> CartasParaSubirAlPrimerJugador     = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit()) && c.getNumber().compareTo(firstCard.getNumber()) > 0         ).collect(Collectors.toCollection(ArrayList::new));
+        //ArrayList<Cards> CartasParaSubirAlPrimerJugador     = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit()) && c.getNumber().compareTo(firstCard.getNumber()) > 0         ).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Cards> CartasParaSubirALaMejorCarta       = hand.stream().filter( c -> c.getSuit().equals(winCard.getSuit())   && c.getNumber().compareTo(winCard.getNumber())   > 0         ).collect(Collectors.toCollection(ArrayList::new)   );
         ArrayList<Cards> CartasTriunfos                     = hand.stream().filter( c -> c.getSuit().equals(Triunfo.getSuit())                                                                  ).collect(Collectors.toCollection(ArrayList::new)   );
-        
-        
+
+
         if ( !firstCard.getSuit().equals(Triunfo.getSuit()) && winCard.getSuit().equals(Triunfo.getSuit()) ) { //si se ha fallado con triunfo
             
             if ( !CartasParaAsistirAlPrimerJugador.isEmpty() ) { //si puedo asistir
-                
+
+                System.out.println(CartasParaAsistirAlPrimerJugador);
                 return CartasParaAsistirAlPrimerJugador;//asisto
                 
             } else {
                 
                 if ( !CartasParaSubirALaMejorCarta.isEmpty() ) { //si puedo subir a la mejor carta (fallada de triunfo)
-                    
+
+                    System.out.println(CartasParaSubirALaMejorCarta);
                     return CartasParaSubirALaMejorCarta;
                     
                 } else {
-                    
+                    System.out.println(hand);
                     return hand;
                     
                 }
@@ -228,12 +229,14 @@ public class Player {
             
             if ( !CartasParaAsistirAlPrimerJugador.isEmpty() ) { //si puedo asistir
                 
-                if ( !CartasParaSubirAlPrimerJugador.isEmpty() ) { //Si puedes subirle al primero
-                
-                    return CartasParaSubirAlPrimerJugador;
+                if ( !CartasParaSubirALaMejorCarta.isEmpty() ) { //Si puedes subirle al primero
+
+                    System.out.println(CartasParaSubirALaMejorCarta);
+                    return CartasParaSubirALaMejorCarta;
                 
                 } else {
-                        
+
+                    System.out.println(CartasParaAsistirAlPrimerJugador);
                     return CartasParaAsistirAlPrimerJugador; //asisto
                         
                 }
@@ -241,11 +244,13 @@ public class Player {
             } else {
                 
                 if ( !CartasTriunfos.isEmpty() ) { //Si puedo triunfar
-                    
+
+                    System.out.println(CartasTriunfos);
                     return CartasTriunfos;
                     
                 } else {
-                    
+
+                    System.out.println(hand);
                     return hand;
                     
                 }
@@ -270,5 +275,8 @@ public class Player {
     public String toString() {
         return name.toUpperCase();
     }
-    
+
+    public void removeCard(Cards c) {
+        hand.remove(c);
+    }
 }

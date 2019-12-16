@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="5dp"
@@ -22,80 +23,80 @@
 
         <ImageView
             android:id="@+id/carta_izq_1"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_2"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_3"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_4"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_5"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_6"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_7"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_8"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_9"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_izq_10"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
@@ -111,80 +112,80 @@
 
         <ImageView
             android:id="@+id/carta_drc_1"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_2"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_3"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_4"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_5"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_6"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_7"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_8"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_9"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_drc_10"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-60dp"
+            android:layout_width="70dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="-36dp"
             app:srcCompat="@drawable/reverso_carta_tumbada"
             android:onClick="cannot_play" />
 
@@ -200,80 +201,80 @@
 
         <ImageView
             android:id="@+id/carta_arb_1"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_2"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_3"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_4"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_5"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_6"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_7"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_8"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_9"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
         <ImageView
             android:id="@+id/carta_arb_10"
-            android:layout_width="80dp"
-            android:layout_height="105dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_width="53dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="-20dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="cannot_play" />
 
@@ -282,7 +283,7 @@
     <LinearLayout
         android:id="@+id/mano_jugador"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="131dp"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true">
@@ -291,80 +292,80 @@
             android:id="@+id/carta_jp_1"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"
+            app:srcCompat="@drawable/reverso_carta" />
 
         <ImageView
             android:id="@+id/carta_jp_2"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_3"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_4"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_5"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_6"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_7"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_8"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_9"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
         <ImageView
             android:id="@+id/carta_jp_10"
             android:layout_width="100dp"
             android:layout_height="131dp"
-            android:layout_marginLeft="-50dp"
+            android:layout_marginLeft="-40dp"
             app:srcCompat="@drawable/reverso_carta"
-            android:onClick="play_card"/>
+            android:onClick="click_card"/>
 
     </LinearLayout>
 
@@ -373,6 +374,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
+        android:visibility="invisible"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
@@ -401,37 +403,89 @@
     <ImageView
         android:id="@+id/triunfo"
         android:layout_width="80dp"
-        android:layout_height="105dp"
+        android:layout_height="82dp"
         android:layout_toRightOf="@id/mano_izq"
         android:layout_alignParentTop="true"
         app:srcCompat="@drawable/reverso_carta_raro"
         android:onClick="carta_triunfo"/>
 
     <LinearLayout
+        android:id="@+id/scoreboardLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/triunfo"
-        android:layout_toLeftOf="@id/mano_arriba"
-        android:paddingTop="20dp"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/mano_arriba"
+        android:layout_toRightOf="@id/triunfo"
+        android:onClick="laderboard"
         android:orientation="vertical"
-        android:onClick="laderboard">
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ally: 1 27"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/allyScoreboardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="They: 3 45"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/allyTeamName"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ally:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/allyTeamGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/allyTeamPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/enemyScoreboardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/enemyTeamName"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Enemy:"
+                android:textSize="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/enemyTeamGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textSize="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/enemyTeamPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -445,52 +499,45 @@
         android:padding="5dp"
         android:gravity="center">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="150dp"
             android:padding="5dp"
             android:background="@drawable/fieltro_tapete_cartas">
 
             <ImageView
-                android:id="@+id/jugada_arrb2"
-                android:layout_width="80dp"
-                android:layout_height="105dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="135dp"
+                android:id="@+id/jugada_izquierda"
+                android:layout_width="60dp"
+                android:layout_height="79dp"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/reverso_carta_raro"
                 android:onClick="jugada_arriba"/>
 
             <ImageView
-                android:id="@+id/jugada_arrb3"
-                android:layout_width="80dp"
-                android:layout_height="105dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:id="@+id/jugada_abajo"
+                android:layout_width="60dp"
+                android:layout_height="79dp"
+                android:layout_gravity="bottom"
                 app:srcCompat="@drawable/reverso_carta_raro"
                 android:onClick="jugada_izquierda" />
 
             <ImageView
-                android:id="@+id/jugada_arrb4"
-                android:layout_width="80dp"
-                android:layout_height="105dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="250dp"
-                android:layout_marginTop="40dp"
+                android:id="@+id/jugada_arriba"
+                android:layout_width="60dp"
+                android:layout_height="79dp"
+                android:layout_gravity="top"
                 app:srcCompat="@drawable/reverso_carta_raro"
                 android:onClick="jugada_abajo" />
 
             <ImageView
-                android:id="@+id/jugada_arrb"
-                android:layout_width="80dp"
-                android:layout_height="105dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="360dp"
-                android:layout_marginTop="20dp"
-                app:srcCompat="@drawable/reverso_carta_raro"
-                android:onClick="jugada_derecha" />
+                android:id="@+id/jugada_derecha"
+                android:layout_width="60dp"
+                android:layout_height="79dp"
+                android:layout_gravity="center"
+                android:onClick="jugada_derecha"
+                app:srcCompat="@drawable/reverso_carta_raro" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

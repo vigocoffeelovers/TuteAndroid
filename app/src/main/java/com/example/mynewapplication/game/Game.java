@@ -28,8 +28,6 @@ public class Game {
     
     public Table table;
     
-    
-    
     public Game(ArrayList<Player> players) {
         table = new Table(players);
         this.players = players;
@@ -43,7 +41,7 @@ public class Game {
         Team2.add(players.get(3));
     }
 
-    
+
     
     private void finishRound(int team) {
         if (team != 0) 
@@ -108,7 +106,7 @@ public class Game {
     
     
     
-    private void initialDeal() {
+    public void initialDeal() {
         for (int i = 0; i < INIT_HAND_CARDS; i++) {
             for (int j = 0; j < players.size(); j++) {
                 dealCard(players.get(j), (i == INIT_HAND_CARDS - 1 && j == players.size() - 1));//If is the last deal to the last player, add the Triunfo
@@ -173,9 +171,15 @@ public class Game {
         else
             return 0;
     }
-    
-    
-    
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
     public void startGameCLI() {
 
         initialDeal();
@@ -273,5 +277,4 @@ public class Game {
         game.startGameCLI();
 
     }
-
 }
