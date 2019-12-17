@@ -271,6 +271,7 @@ class GameThread extends Thread {
     }
 
     public void newRound(Game game){
+            game.addRound();
             playsUntilEoRound = 3;
             currentGame.table.removeCurrentPlay();
             playNextPlayer(game);
@@ -281,6 +282,7 @@ class GameThread extends Thread {
      */
     public void playNextPlayer(Game game) {
         System.out.println("Player: " + nextplayer + " turn");
+        game.setCurrentPlayer(game.getPlayers().get(nextplayer));
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = players.get(nextplayer).playCard();
         if (playedCard == null){
@@ -323,7 +325,6 @@ class GameThread extends Thread {
             public void run() {
                 gameActivity.imagesBoard[0].setImageResource(playedCard.getImage(gameActivity.DECK));
                 gameActivity.imagesBoard[0].setVisibility(View.VISIBLE);
-                System.out.println("Hola buenos dias");
             }
         });
         try {
