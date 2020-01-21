@@ -38,10 +38,10 @@ public class GameActivity extends AppCompatActivity{
     GameThread gameThread;
     //Our players (the human class references the real player, while the others are just the AIs)
     ArrayList<Player> players = new ArrayList<>(Arrays.asList(
-            new Human("Sergio"),
-            new Player("Marcos"),
-            new Player("Roi"),
-            new Player("Pablo")
+            new Human("You"),
+            new Player("Right Enemy"),
+            new Player("Your Ally"),
+            new Player("Left Enemy")
     ));
 
     //Cards Views (the board cards will correspond with the ORIGINAL players order -being the first one the player and continuing clockwise-)
@@ -350,6 +350,7 @@ class GameThread extends Thread {
     }
 
     private void endOfRound(Game game) {
+        String verb;
         setBoardInvisible();
         int winnerId = - 1;
         Cards wonCard = game.checkWonCard(new ArrayList<>(Arrays.asList(onBoardCards)));
@@ -360,7 +361,65 @@ class GameThread extends Thread {
             }
         }
         System.out.println("The winner of the round is player: " + winnerId);
-        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards))));
+        int winnerTeam = game.getTeam(game.getPlayers().get(winnerId));
+        ArrayList<Player> winnerTeamList = game.getTeam(winnerTeam);
+        int extraPoints = 0;
+        Suits sing1 = winnerTeamList.get(0).sing();
+        Suits sing2 = winnerTeamList.get(1).sing();
+        if( winnerTeamList.get(0).getName().equals("You")){
+            verb=("have");
+        }else{
+            verb="has";
+        }
+        if(sing1 == (currentGame.getTable().getTriunfo().getSuit())){
+            extraPoints+=40;
+
+
+            final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb + " has singed 40s!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }else if(sing1!= null){
+            extraPoints+=20;
+            final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb +" singed 20s on " + sing1.name() + "!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        if( winnerTeamList.get(0).getName().equals("You")){
+            verb=("have");
+        }else{
+            verb="has";
+        }
+        if(sing2 == (currentGame.getTable().getTriunfo().getSuit())){
+            extraPoints+=40;
+            final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 40s!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }else if(sing2!= null){
+            extraPoints+=20;
+            final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 20s on " + sing2.name()+ "!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+
+        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards)))+extraPoints);
         updateLeaderBoard();
         if ((--roundsUntilEoGame) < 0){
             endOfGame(game);
