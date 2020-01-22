@@ -103,7 +103,7 @@ public class Game {
     
     
     
-    private Map.Entry<Player, Cards> checkWonCard() {
+    public Map.Entry<Player, Cards> checkWonPlay() {
         Player jugadorGanador = null;
         
         ArrayList<Map.Entry<Player, Cards>> plays = new ArrayList<>(table.getPlayedCards().entrySet());
@@ -134,7 +134,7 @@ public class Game {
     
     public Cards checkWonCard(ArrayList<Cards> plays) {
         Cards cartaGanadora = null;
-        
+
         for (Cards c : plays) {
             if (cartaGanadora == null) {
                 cartaGanadora = plays.get(0);
@@ -150,7 +150,7 @@ public class Game {
                 }
             }
         }
-        
+
         return cartaGanadora;
     }
     
@@ -288,7 +288,7 @@ public class Game {
             System.out.println();
 
             
-            Map.Entry<Player, Cards> wonPlay = checkWonCard();
+            Map.Entry<Player, Cards> wonPlay = checkWonPlay();
 
             System.out.println("The player " + wonPlay.getKey() + " has won the play with the card [" + wonPlay.getValue() + "]");
             System.out.println();

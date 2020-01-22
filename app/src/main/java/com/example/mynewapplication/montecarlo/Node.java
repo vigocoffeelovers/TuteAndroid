@@ -64,7 +64,7 @@ public class Node {
     public Node getChildWithMaxScore() {
         return Collections.max(
             this.childArray,
-            Comparator.comparing(c -> { return c.getState().getVisitCount(); }) //TODO Score or VisitCount ?¿?
+            Comparator.comparing(c -> { return c.getState().getWinScore(); }) //TODO Score or VisitCount ?¿?
         );
     }
 
