@@ -53,6 +53,10 @@ public class GameActivity extends AppCompatActivity{
     HashMap<Integer, Cards> cardsHand = new HashMap<Integer, Cards>();
     ImageView[] imagesBoard = new ImageView[4];
 
+    ImageView[] allyCards = new ImageView[10];
+    ImageView[] rightCards = new ImageView[10];
+    ImageView[] leftCards = new ImageView[10];
+
     //Scoreboard views
     TextView allyGames;
     TextView allyPoints;
@@ -104,6 +108,47 @@ public class GameActivity extends AppCompatActivity{
         enemyPoints = this.findViewById(R.id.enemyTeamPoints);
 
 
+        allyCards = new ArrayList<>(Arrays.asList(
+                this.findViewById(R.id.carta_arb_1),
+                this.findViewById(R.id.carta_arb_2),
+                this.findViewById(R.id.carta_arb_3),
+                this.findViewById(R.id.carta_arb_4),
+                this.findViewById(R.id.carta_arb_5),
+                this.findViewById(R.id.carta_arb_6),
+                this.findViewById(R.id.carta_arb_7),
+                this.findViewById(R.id.carta_arb_8),
+                this.findViewById(R.id.carta_arb_9),
+                this.findViewById(R.id.carta_arb_10)
+        )).toArray(allyCards);
+
+
+        rightCards = new ArrayList<>(Arrays.asList(
+                this.findViewById(R.id.carta_drc_1),
+                this.findViewById(R.id.carta_drc_2),
+                this.findViewById(R.id.carta_drc_3),
+                this.findViewById(R.id.carta_drc_4),
+                this.findViewById(R.id.carta_drc_5),
+                this.findViewById(R.id.carta_drc_6),
+                this.findViewById(R.id.carta_drc_7),
+                this.findViewById(R.id.carta_drc_8),
+                this.findViewById(R.id.carta_drc_9),
+                this.findViewById(R.id.carta_drc_10)
+        )).toArray(rightCards);
+
+
+        leftCards = new ArrayList<>(Arrays.asList(
+                this.findViewById(R.id.carta_izq_1),
+                this.findViewById(R.id.carta_izq_2),
+                this.findViewById(R.id.carta_izq_3),
+                this.findViewById(R.id.carta_izq_4),
+                this.findViewById(R.id.carta_izq_5),
+                this.findViewById(R.id.carta_izq_6),
+                this.findViewById(R.id.carta_izq_7),
+                this.findViewById(R.id.carta_izq_8),
+                this.findViewById(R.id.carta_izq_9),
+                this.findViewById(R.id.carta_izq_10)
+        )).toArray(leftCards);
+
         gameThread = new GameThread(this);
         gameThread.start();
     }
@@ -112,6 +157,42 @@ public class GameActivity extends AppCompatActivity{
     public int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
+    }
+
+    public void setAllyCardsVisibility(int cantidadVisible){
+        for(int i=1; i <= 10; i++){
+            if(i <= cantidadVisible){
+                ImageView view = allyCards[i-1];
+                view.setVisibility(View.VISIBLE);
+            } else {
+                ImageView view = allyCards[i-1];
+                view.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    public void setRightCardsVisibility(int cantidadVisible){
+        for(int i=1; i <= 10; i++){
+            if(i <= cantidadVisible){
+                ImageView view = rightCards[i-1];
+                view.setVisibility(View.VISIBLE);
+            } else {
+                ImageView view = rightCards[i-1];
+                view.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    public void setLeftCardsVisibility(int cantidadVisible){
+        for(int i=1; i <= 10; i++){
+            if(i <= cantidadVisible){
+                ImageView view = leftCards[i-1];
+                view.setVisibility(View.VISIBLE);
+            } else {
+                ImageView view = leftCards[i-1];
+                view.setVisibility(View.INVISIBLE);
+            }
+        }
     }
     /**
      * We will change this function to ensure the player actually wants to leave the game
@@ -172,10 +253,6 @@ public class GameActivity extends AppCompatActivity{
         }else {
             Toast.makeText(getApplicationContext(), "It is not your turn, don't be hasty!", Toast.LENGTH_LONG).show();
         }
-    }
-
-    public void setCardInvisible(){
-        //TODO
     }
 
     /**
@@ -248,6 +325,9 @@ class GameThread extends Thread {
             @Override
             public void run() {
                 gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
+                gameActivity.setLeftCardsVisibility(10);
+                gameActivity.setRightCardsVisibility(10);
+                gameActivity.setAllyCardsVisibility(10);
                 for (int i=0; i <10 ; i++) {
                     gameActivity.imagesHand[i].setImageResource(currentGame.getPlayers().get(0).getHand().get(i).getImage(gameActivity.DECK));
                     gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), currentGame.getPlayers().get(0).getHand().get(i));
@@ -301,6 +381,17 @@ class GameThread extends Thread {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
+                switch (temp){
+                    case 1:
+                        gameActivity.setRightCardsVisibility(roundsUntilEoGame);
+                    break;
+                    case 2:
+                        gameActivity.setAllyCardsVisibility(roundsUntilEoGame);
+                    break;
+                    case 3:
+                        gameActivity.setLeftCardsVisibility(roundsUntilEoGame);
+                    break;
+                }
                 gameActivity.imagesBoard[temp].setImageResource(playedCard.getImage(gameActivity.DECK));
                 gameActivity.imagesBoard[temp].setVisibility(View.VISIBLE);
             }
