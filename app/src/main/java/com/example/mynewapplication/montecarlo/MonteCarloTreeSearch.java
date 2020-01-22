@@ -24,21 +24,31 @@ public class MonteCarloTreeSearch {
             expandNode(rootNode);
 
         while (System.currentTimeMillis() < end) {
-
             Node nodeToExplore = rootNode.getRandomChildNode();
-            Boolean hasWon = simulateRandomPlayout(nodeToExplore); //Simulamos la jugada completa(de momento solo una "vuelta")
+            Boolean hasWon = simulateRandomGame(nodeToExplore); //Simulamos la jugada completa(de momento solo una "vuelta")
             backPropogation(nodeToExplore, hasWon);
         }
 
+        String currentPlayerName = game.getCurrentPlayer().getName();
         Node winnerNode = rootNode.getChildWithMaxScore();
         tree.setRoot(winnerNode);
-        String currentPlayerName = game.getCurrentPlayer().getName();
         Cards winnerCard = null;
         Map<Player,Cards> playedCardsInWinnerNode = winnerNode.getState().getGame().getTable().getPlayedCards();
         for (Map.Entry<Player,Cards> e : playedCardsInWinnerNode.entrySet())
             if(e.getKey().getName().equals(currentPlayerName))
                 winnerCard = e.getValue();
-        System.out.println("CARTA ESCOGIDA = " + winnerCard);
+
+
+        rootNode.getChildArray().forEach(n -> {
+            Map<Player, Cards> playedCardsInNewNode = n.getState().getGame().getTable().getPlayedCards();
+            Cards child = null;
+            for (Map.Entry<Player,Cards> e : playedCardsInNewNode.entrySet())
+                if(e.getKey().getName().equals(currentPlayerName))
+                     child = e.getValue();
+            System.err.println(child + " - " + n.getState().getVisitCount() + " - " + n.getState().getWinScore());
+        });
+
+
         return winnerCard;
 
     }
@@ -59,14 +69,14 @@ public class MonteCarloTreeSearch {
             tempNode.getState().addScore(WIN_SCORE);
     }
 
-    private boolean simulateRandomPlayout(Node nodeToExplore) {
+    private boolean simulateRandomGame(Node nodeToExplore) {
 
         Game copyGame = new Game(nodeToExplore.getState().getGame()); //Creo una copia del estado actual del juego para poder simular sin alterar el original
 
         Map<Player, Cards> playedCards = copyGame.getTable().getPlayedCards(); //Cojo las cartas ya jugadas en esta ronda/vuelta
 
         ArrayList<Cards> totalPlayableCardsInGame = new ArrayList<>(Arrays.asList(Cards.values())); //Cojo todas las cartas que aun no han salido en la partida
-        totalPlayableCardsInGame.removeAll(copyGame.getTable().getTotalPlayedCards());
+        totalPlayableCardsInGame.removeAll(copyGame.getTable().getTotalPlayedCards());              //
 
         copyGame.getPlayers().forEach(p -> {
             if (playedCards.get(p) == null) { //Compruebo que jugadores faltan por jugar para acabar la ronda/vuelta
