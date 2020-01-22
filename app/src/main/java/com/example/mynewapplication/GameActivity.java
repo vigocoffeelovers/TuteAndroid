@@ -41,10 +41,10 @@ public class GameActivity extends AppCompatActivity{
     GameThread gameThread;
     //Our players (the human class references the real player, while the others are just the AIs)
     ArrayList<Player> players = new ArrayList<>(Arrays.asList(
-            new Human("Sergio"),
-            new Player("Marcos"),
-            new Player("Roi"),
-            new Player("Pablo")
+            new Human("You"),
+            new Player("Right Enemy"),
+            new Player("Your Ally"),
+            new Player("Left Enemy")
     ));
 
     //Cards Views (the board cards will correspond with the ORIGINAL players order -being the first one the player and continuing clockwise-)
@@ -325,12 +325,15 @@ class GameThread extends Thread {
             @Override
             public void run() {
                 gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
+
                 gameActivity.setLeftCardsVisibility(10);
                 gameActivity.setRightCardsVisibility(10);
                 gameActivity.setAllyCardsVisibility(10);
+                ArrayList<Cards> cartasOrdenadas = sortHandCards(currentGame.getPlayers().get(0).getHand(), currentGame.getTable().getTriunfo());
+
                 for (int i=0; i <10 ; i++) {
-                    gameActivity.imagesHand[i].setImageResource(currentGame.getPlayers().get(0).getHand().get(i).getImage(gameActivity.DECK));
-                    gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), currentGame.getPlayers().get(0).getHand().get(i));
+                    gameActivity.imagesHand[i].setImageResource(cartasOrdenadas.get(i).getImage(gameActivity.DECK));
+                    gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), cartasOrdenadas.get(i));
                 }
             }
         });
@@ -339,7 +342,28 @@ class GameThread extends Thread {
         newRound(currentGame);
     }
 
+    public ArrayList<Cards> sortHandCards(ArrayList<Cards> cartas, Cards triunfo){
+        ArrayList<Cards> cartasOrdenadas = new ArrayList<Cards>(); // Arraylist with the cards sorted left to right by "triunfo" and "palo"
+
+        Collections.sort(cartas, Cards.CardsValueComparator); // Compare the cards in increasing "palo" and decreasing value
+
+        for (Cards carta: cartas){ // First, we will save the cards of the "triunfo"
+            if(carta.getSuit().equals(triunfo.getSuit())){
+                cartasOrdenadas.add(carta);
+            }
+        }
+
+        for (Cards carta: cartas){ // Now, we will introduce the other cards sorted
+            if(!carta.getSuit().equals(triunfo.getSuit())){
+                cartasOrdenadas.add(carta);
+            }
+        }
+
+        return cartasOrdenadas;
+    }
+
     public void newRound(Game game){
+            game.addRound();
             playsUntilEoRound = 3;
             currentGame.table.removeCurrentPlay();
             playNextPlayer(game);
@@ -350,6 +374,7 @@ class GameThread extends Thread {
      */
     public void playNextPlayer(Game game) {
         System.out.println("Player: " + nextplayer + " turn");
+        game.setCurrentPlayer(game.getPlayers().get(nextplayer));
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = players.get(nextplayer).playCard();
         if (playedCard == null){
@@ -419,7 +444,6 @@ class GameThread extends Thread {
             public void run() {
                 gameActivity.imagesBoard[0].setImageResource(playedCard.getImage(gameActivity.DECK));
                 gameActivity.imagesBoard[0].setVisibility(View.VISIBLE);
-                System.out.println("Hola buenos dias");
             }
         });
         try {
@@ -445,6 +469,7 @@ class GameThread extends Thread {
     }
 
     private void endOfRound(Game game) {
+        String verb;
         setBoardInvisible();
         int winnerId = - 1;
         Cards wonCard = game.checkWonCard(new ArrayList<>(Arrays.asList(onBoardCards)));
@@ -455,9 +480,100 @@ class GameThread extends Thread {
             }
         }
         System.out.println("The winner of the round is player: " + winnerId);
-        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards))));
+        int winnerTeam = game.getTeam(game.getPlayers().get(winnerId));
+        ArrayList<Player> winnerTeamList = game.getTeam(winnerTeam);
+        int extraPoints = 0;
+        Suits sing1 = winnerTeamList.get(0).sing();
+        Suits sing2 = winnerTeamList.get(1).sing();
+        if( winnerTeamList.get(0).getName().equals("You")){
+            verb=("have");
+        }else{
+            verb="has";
+        }
+        if(sing1 == (currentGame.getTable().getTriunfo().getSuit())){
+            extraPoints+=40;
+
+
+            final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb + " has singed 40s!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }else if(sing1!= null){
+            extraPoints+=20;
+            final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb +" singed 20s on " + sing1.name() + "!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        if( winnerTeamList.get(0).getName().equals("You")){
+            verb=("have");
+        }else{
+            verb="has";
+        }
+        if(sing2 == (currentGame.getTable().getTriunfo().getSuit())){
+            extraPoints+=40;
+            final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 40s!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }else if(sing2!= null){
+            extraPoints+=20;
+            final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 20s on " + sing2.name()+ "!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+
+        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards)))+extraPoints);
         updateLeaderBoard();
         if ((--roundsUntilEoGame) < 0){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), 10);
+
+
+
+            if (winnerTeam==1){
+                final String msg = ("Your team have won the 10 final points!!!!");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else{
+                final String msg = ("Enemy has won the 10 final points!!!!");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             endOfGame(game);
         } else {
             nextplayer = winnerId;

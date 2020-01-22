@@ -1,5 +1,7 @@
 package com.example.mynewapplication.game;
 
+import com.example.mynewapplication.montecarlo.MonteCarloTreeSearch;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -27,8 +29,6 @@ public class Player {
         this.name   = name;
     }
     
-    
-    
     /**
      * Creates a player ready to play a Tute match.
      * @param name Name of the player. It will work as an identifier for him.
@@ -38,9 +38,7 @@ public class Player {
         this(name);
         this.game = game;
     }
-    
-    
-    
+
     /**
      * Add the given card to the player hand.
      * @param card Card to add to the hand
@@ -57,7 +55,8 @@ public class Player {
      */
     public Cards playCard() {
         ArrayList<Cards> playableCards = checkPlayableCards();
-        Cards chosen_card = playableCards.get((int)(Math.random()*playableCards.size())); //TODO Now is being choosing a random card
+        //Cards chosen_card = playableCards.get((int)(Math.random()*playableCards.size())); //TODO Now is being choosing a random card
+        Cards chosen_card = new MonteCarloTreeSearch().findNextPlay(game);
         return chosen_card;
     }
     
@@ -72,27 +71,27 @@ public class Player {
      * 
      * @return the list of cards to sing
      */
-    public ArrayList<Cards> sing() {
+    public Suits sing() {
         
         ArrayList< ArrayList<Cards> > singCards = checkSingableCards();
         
         if (singCards.isEmpty())
-            return new ArrayList<>();
+            return null;
         
-        for (ArrayList<Cards> s : singCards) { //TUTE
+        /*for (ArrayList<Cards> s : singCards) { //TUTE
             if (s.size()==4)
                 return s;
-        }
+        }*/
         
         for (ArrayList<Cards> s : singCards) { //40s
             if (s.get(0).getSuit().equals(game.table.getTriunfo().getSuit())) {
                 this.sings.add(s.get(0).getSuit());
-                return s;
+                return game.table.getTriunfo().getSuit();
             }
         }
         
         this.sings.add(singCards.get(0).get(0).getSuit()); //20s (da igual cual, pilla el primer palo que le llega)
-        return singCards.get(0);
+        return singCards.get(0).get(0).getSuit();
         
     }
     
@@ -142,6 +141,9 @@ public class Player {
      * 
      * @return List of cards which can be singed
      */
+
+    //TODO Sergio, revisa que esta función esté bien anda
+
     protected ArrayList< ArrayList<Cards> > checkSingableCards () {
         
         ArrayList< ArrayList<Cards> > cardsToSing = new ArrayList<>();
@@ -153,17 +155,17 @@ public class Player {
             else if (d.getNumber().equals(Numbers.KING)) kings.add(d);
         }
         
-        if (kings.size()==4) {
+        /*if (kings.size()==4) {
             cardsToSing.add( kings );
             sings.addAll( Arrays.asList(Suits.values()) );
             return cardsToSing;
-        }
+        }*/
         
-        if (horses.size()==4) {
+        /*if (horses.size()==4) {
             cardsToSing.add( horses );
             sings.addAll(Arrays.asList(Suits.values()));
             return cardsToSing;
-        }
+        }*/
         
         for (Cards h : horses) {
             if (this.sings.contains(h.getSuit())) //Si ya la ha cantado antes o si ya esta añadida a la lista de posibles cantes
@@ -192,7 +194,6 @@ public class Player {
         if (playedCards.isEmpty()) {
             return hand;
         }
-        System.out.println(playedCards);
         Cards winCard                   = checkWonCard(playedCards);
         Cards firstCard                 = playedCards.get(0);
         Cards Triunfo                   = game.table.getTriunfo();
@@ -207,18 +208,15 @@ public class Player {
             
             if ( !CartasParaAsistirAlPrimerJugador.isEmpty() ) { //si puedo asistir
 
-                System.out.println(CartasParaAsistirAlPrimerJugador);
                 return CartasParaAsistirAlPrimerJugador;//asisto
                 
             } else {
                 
                 if ( !CartasParaSubirALaMejorCarta.isEmpty() ) { //si puedo subir a la mejor carta (fallada de triunfo)
 
-                    System.out.println(CartasParaSubirALaMejorCarta);
                     return CartasParaSubirALaMejorCarta;
                     
                 } else {
-                    System.out.println(hand);
                     return hand;
                     
                 }
@@ -231,12 +229,10 @@ public class Player {
                 
                 if ( !CartasParaSubirALaMejorCarta.isEmpty() ) { //Si puedes subirle al primero
 
-                    System.out.println(CartasParaSubirALaMejorCarta);
                     return CartasParaSubirALaMejorCarta;
                 
                 } else {
 
-                    System.out.println(CartasParaAsistirAlPrimerJugador);
                     return CartasParaAsistirAlPrimerJugador; //asisto
                         
                 }
@@ -245,12 +241,10 @@ public class Player {
                 
                 if ( !CartasTriunfos.isEmpty() ) { //Si puedo triunfar
 
-                    System.out.println(CartasTriunfos);
                     return CartasTriunfos;
                     
                 } else {
 
-                    System.out.println(hand);
                     return hand;
                     
                 }
@@ -279,4 +273,6 @@ public class Player {
     public void removeCard(Cards c) {
         hand.remove(c);
     }
+
+    public String getName() { return name; }
 }

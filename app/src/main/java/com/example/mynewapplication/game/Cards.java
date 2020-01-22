@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.example.mynewapplication.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public enum Cards{
 
@@ -91,6 +92,26 @@ public enum Cards{
         return null;
     }
 
+    /*Comparator for sorting the list by "palo* and value*/
+    public static Comparator<Cards> CardsValueComparator = new Comparator<Cards>() {
+        @Override
+        public int compare(Cards o1, Cards o2) {
+
+            Suits palo1 = o1.getSuit();
+            Suits palo2 = o2.getSuit();
+
+            int sComp = palo1.compareTo(palo2);
+
+            if (sComp != 0) {
+                return sComp;
+            }
+
+            Numbers cardNumber1 = o1.getNumber();
+            Numbers cardNumber2 = o2.getNumber();
+
+            return cardNumber2.compareTo(cardNumber1);
+        }
+    };
 
 
     private final Card card;

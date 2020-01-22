@@ -19,7 +19,10 @@ public class Game {
     //private static final int INIT_SHUFFLE_PERMUTATIONS = 100; //TODO?
     
     private int FINISH_ROUND = 0;
-    
+
+    private int round = 0;
+    private Player currentPlayer;
+
     private final ArrayList<Player> players;
     private final ArrayList<Player> Team1;
     private final ArrayList<Player> Team2;
@@ -29,7 +32,7 @@ public class Game {
     public Table table;
     
     public Game(ArrayList<Player> players) {
-        table = new Table(players);
+        table = new Table();
         this.players = players;
         for (Player p : players)
             p.joinGame(this);
@@ -41,7 +44,54 @@ public class Game {
         Team2.add(players.get(3));
     }
 
+    public Game(Game game) {
+        // Players copy
+        this.players = new ArrayList<>();
+        for (Player p : game.getPlayers()) {
+            Player newPlayer = new Player(p.getName());
+            p.getHand().forEach(c -> newPlayer.receiveCard(c));
+            p.sings.forEach(s -> newPlayer.sings.add(s));
+            newPlayer.joinGame(this);
+            this.players.add(newPlayer);
+        }
 
+        // Table copy (with new players instances)
+        this.table = new Table();
+        game.getTable().getDeck().forEach(c -> this.table.getDeck().add(c));
+        game.getTable().getTotalPlayedCards().forEach(c -> this.table.getTotalPlayedCards().add(c));
+        this.table.setTriunfo(game.getTable().getTriunfo());
+        for (Map.Entry<Player, Cards> entry : game.getTable().getPlayedCards().entrySet()) {
+            for (Player newPlayer : this.players)
+                if (newPlayer.getName().equals(entry.getKey().getName()))
+                    this.table.getPlayedCards().put(newPlayer, entry.getValue());
+        }
+
+        // Teams copy (with new players instances)
+        this.Team1   = new ArrayList<>();
+        this.Team2   = new ArrayList<>();
+        for (Player p : game.getTeam(1)) {
+            for (Player newPlayer : this.players)
+                if (newPlayer.getName().equals(p.getName()))
+                    this.Team1.add(newPlayer);
+        }
+        for (Player p : game.getTeam(2)) {
+            for (Player newPlayer : this.players)
+                if (newPlayer.getName().equals(p.getName()))
+                    this.Team2.add(newPlayer);
+        }
+
+        // Teams points copy
+        this.pointsTeam1 = game.getPoints(1);
+        this.pointsTeam2 = game.getPoints(2);
+
+        // Round count copy
+        this.round = game.getRound();
+
+        // Current player copy
+        for (Player newPlayer : this.players)
+            if (newPlayer.getName().equals(game.getCurrentPlayer().getName()))
+                this.currentPlayer = newPlayer;
+    }
     
     private void finishRound(int team) {
         if (team != 0) 
@@ -133,11 +183,11 @@ public class Game {
     }
 
     
-    
+    /*
     private ArrayList<Cards> askForSing(Player player) {
         return player.sing();
     }
-    
+    */
     
     
     public void addPoints(int team, int points) {
@@ -172,6 +222,15 @@ public class Game {
             return 0;
     }
 
+    public ArrayList<Player> getTeam(int team) {
+        if (team == 1)
+            return Team1;
+        else if (team == 2)
+            return Team2;
+        else
+            return null;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -180,6 +239,23 @@ public class Game {
         return table;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player player) {
+        System.err.println("CURRENT PLAYER = " + player);
+        this.currentPlayer = player;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void addRound() {
+        round++;
+    }
+    /*
     public void startGameCLI() {
 
         initialDeal();
@@ -219,7 +295,7 @@ public class Game {
             
             addPoints(getTeam(wonPlay.getKey()), Cards.calculatePoints(new ArrayList<>(table.getPlayedCards().values())));
 
-            table.addTrick(wonPlay.getKey());
+            //table.addTrick(wonPlay.getKey());
 
             
             System.out.println(" -> Asking the player " + wonPlay.getKey() + " for a sing");
@@ -258,7 +334,7 @@ public class Game {
         else
             finishRound(0);
 
-    }
+    }*/
 
 
     
@@ -274,7 +350,7 @@ public class Game {
 
         Game game = new Game(players);
         
-        game.startGameCLI();
+        //game.startGameCLI();
 
     }
 }

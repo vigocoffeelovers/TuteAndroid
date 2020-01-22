@@ -31,27 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seek_number_games);
-        final TextView seekBarValue = (TextView) findViewById(R.id.games_to_win_value);
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
-                seekBarValue.setText(progress);
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-        });
     }
 
     @Override
