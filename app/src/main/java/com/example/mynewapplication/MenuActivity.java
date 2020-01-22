@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.mynewapplication.game.Game;
+
 public class MenuActivity extends AppCompatActivity {
 
     @Override
@@ -52,15 +54,18 @@ public class MenuActivity extends AppCompatActivity {
     public void play(View view){
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void settings(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void about(View view){
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
+        finish();
     }
 }

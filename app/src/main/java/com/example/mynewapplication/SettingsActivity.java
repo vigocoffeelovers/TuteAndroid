@@ -33,8 +33,15 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+        finish();
+    }
     public void menu(View view){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
+        finish();
     }
 }

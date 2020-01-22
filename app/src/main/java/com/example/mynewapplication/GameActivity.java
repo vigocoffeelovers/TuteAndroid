@@ -3,9 +3,12 @@ package com.example.mynewapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class GameActivity extends AppCompatActivity{
-    public final static int SKIN_ID = 0;
 
     //For now static constants, in future will be suitables on the setting smenu
     public final static int DECK = 0;
@@ -38,10 +41,10 @@ public class GameActivity extends AppCompatActivity{
     GameThread gameThread;
     //Our players (the human class references the real player, while the others are just the AIs)
     ArrayList<Player> players = new ArrayList<>(Arrays.asList(
-            new Human("Sergio"),
-            new Player("Marcos"),
-            new Player("Roi"),
-            new Player("Pablo")
+            new Human("You"),
+            new Player("Right Enemy"),
+            new Player("Your Ally"),
+            new Player("Left Enemy")
     ));
 
     //Cards Views (the board cards will correspond with the ORIGINAL players order -being the first one the player and continuing clockwise-)
@@ -105,7 +108,11 @@ public class GameActivity extends AppCompatActivity{
         gameThread.start();
     }
 
-
+    /* function dp to dx */
+    public int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
     /**
      * We will change this function to ensure the player actually wants to leave the game
      */
@@ -119,6 +126,7 @@ public class GameActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(GameActivity.this, MenuActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.setNegativeButton("NO.", new DialogInterface.OnClickListener() {
@@ -129,30 +137,6 @@ public class GameActivity extends AppCompatActivity{
         });
 
         builder.show();
-    }
-
-    /**
-     * This metoth will be implemented when singing become not automatic
-     * @param view
-     */
-    public void sing_40(View view) {
-        Toast.makeText(getApplicationContext(), "You sang the 40s, Congrats!!", Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * This metoth will be implemented when singing become not automatic
-     * @param view
-     */
-    public void sing_20(View view) {
-        Toast.makeText(getApplicationContext(), "You sang the 20s, Congrats!!", Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * This metoth will be implemented when singing become not automatic
-     * @param view
-     */
-    public void sing_tute(View view) {
-        Toast.makeText(getApplicationContext(), "TUTE!! Are you cheating??", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -175,6 +159,11 @@ public class GameActivity extends AppCompatActivity{
                 System.out.println("Player plays: " + clickedCard.toString());
                 cardsHand.remove(clickedId);
                 view.setVisibility(View.GONE);
+                for (ImageView card:imagesHand) {
+                    card.setBackgroundResource(0);
+                    card.getLayoutParams().height = dpToPx(107);
+                    card.getLayoutParams().width = dpToPx(70);
+                }
                 HumanPlay hp = new HumanPlay(gameThread, clickedCard);
                 hp.start();
             }else {
@@ -307,6 +296,22 @@ class GameThread extends Thread {
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = players.get(nextplayer).playCard();
         if (playedCard == null){
+            ArrayList<Cards> playableCards = players.get(nextplayer).checkPlayableCards();
+            Set<Integer> idRecursoSet = gameActivity.cardsHand.keySet();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    for (int idRecurso:idRecursoSet) {
+                        ImageView view = gameActivity.findViewById(idRecurso);
+                        if (playableCards.contains(gameActivity.cardsHand.get(idRecurso))){
+                            view.setBackgroundResource(R.drawable.card_avaliable);
+                        } else {
+                            view.getLayoutParams().height = gameActivity.dpToPx(98);
+                            view.getLayoutParams().width = gameActivity.dpToPx(64);
+                        }
+                    }
+                }
+            });
             return;
         }
         currentGame.table.addPlayedCard(gameActivity.players.get(nextplayer),playedCard);
@@ -371,6 +376,7 @@ class GameThread extends Thread {
     }
 
     private void endOfRound(Game game) {
+        String verb;
         setBoardInvisible();
         int winnerId = - 1;
         Cards wonCard = game.checkWonCard(new ArrayList<>(Arrays.asList(onBoardCards)));
@@ -381,9 +387,100 @@ class GameThread extends Thread {
             }
         }
         System.out.println("The winner of the round is player: " + winnerId);
-        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards))));
+        int winnerTeam = game.getTeam(game.getPlayers().get(winnerId));
+        ArrayList<Player> winnerTeamList = game.getTeam(winnerTeam);
+        int extraPoints = 0;
+        Suits sing1 = winnerTeamList.get(0).sing();
+        Suits sing2 = winnerTeamList.get(1).sing();
+        if( winnerTeamList.get(0).getName().equals("You")){
+            verb=("have");
+        }else{
+            verb="has";
+        }
+        if(sing1 == (currentGame.getTable().getTriunfo().getSuit())){
+            extraPoints+=40;
+
+
+            final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb + " has singed 40s!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }else if(sing1!= null){
+            extraPoints+=20;
+            final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb +" singed 20s on " + sing1.name() + "!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        if( winnerTeamList.get(0).getName().equals("You")){
+            verb=("have");
+        }else{
+            verb="has";
+        }
+        if(sing2 == (currentGame.getTable().getTriunfo().getSuit())){
+            extraPoints+=40;
+            final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 40s!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }else if(sing2!= null){
+            extraPoints+=20;
+            final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 20s on " + sing2.name()+ "!!!!");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+
+        game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards)))+extraPoints);
         updateLeaderBoard();
         if ((--roundsUntilEoGame) < 0){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), 10);
+
+
+
+            if (winnerTeam==1){
+                final String msg = ("Your team have won the 10 final points!!!!");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else{
+                final String msg = ("Enemy has won the 10 final points!!!!");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             endOfGame(game);
         } else {
             nextplayer = winnerId;
