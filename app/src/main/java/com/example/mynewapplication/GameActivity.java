@@ -3,9 +3,12 @@ package com.example.mynewapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class GameActivity extends AppCompatActivity{
-    public final static int SKIN_ID = 0;
 
     //For now static constants, in future will be suitables on the setting smenu
     public final static int DECK = 0;
@@ -105,7 +108,11 @@ public class GameActivity extends AppCompatActivity{
         gameThread.start();
     }
 
-
+    /* function dp to dx */
+    public int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
     /**
      * We will change this function to ensure the player actually wants to leave the game
      */
@@ -132,30 +139,6 @@ public class GameActivity extends AppCompatActivity{
     }
 
     /**
-     * This metoth will be implemented when singing become not automatic
-     * @param view
-     */
-    public void sing_40(View view) {
-        Toast.makeText(getApplicationContext(), "You sang the 40s, Congrats!!", Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * This metoth will be implemented when singing become not automatic
-     * @param view
-     */
-    public void sing_20(View view) {
-        Toast.makeText(getApplicationContext(), "You sang the 20s, Congrats!!", Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * This metoth will be implemented when singing become not automatic
-     * @param view
-     */
-    public void sing_tute(View view) {
-        Toast.makeText(getApplicationContext(), "TUTE!! Are you cheating??", Toast.LENGTH_LONG).show();
-    }
-
-    /**
      * This warning will pop up when the user tries to play enemy cards (or at lest just touch them...)
      * @param view
      */
@@ -175,6 +158,11 @@ public class GameActivity extends AppCompatActivity{
                 System.out.println("Player plays: " + clickedCard.toString());
                 cardsHand.remove(clickedId);
                 view.setVisibility(View.GONE);
+                for (ImageView card:imagesHand) {
+                    card.setBackgroundResource(0);
+                    card.getLayoutParams().height = dpToPx(107);
+                    card.getLayoutParams().width = dpToPx(70);
+                }
                 HumanPlay hp = new HumanPlay(gameThread, clickedCard);
                 hp.start();
             }else {
@@ -307,6 +295,22 @@ class GameThread extends Thread {
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = players.get(nextplayer).playCard();
         if (playedCard == null){
+            ArrayList<Cards> playableCards = players.get(nextplayer).checkPlayableCards();
+            Set<Integer> idRecursoSet = gameActivity.cardsHand.keySet();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    for (int idRecurso:idRecursoSet) {
+                        ImageView view = gameActivity.findViewById(idRecurso);
+                        if (playableCards.contains(gameActivity.cardsHand.get(idRecurso))){
+                            view.setBackgroundResource(R.drawable.card_avaliable);
+                        } else {
+                            view.getLayoutParams().height = gameActivity.dpToPx(98);
+                            view.getLayoutParams().width = gameActivity.dpToPx(64);
+                        }
+                    }
+                }
+            });
             return;
         }
         currentGame.table.addPlayedCard(gameActivity.players.get(nextplayer),playedCard);
