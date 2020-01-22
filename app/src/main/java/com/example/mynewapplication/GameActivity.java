@@ -126,6 +126,7 @@ public class GameActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(GameActivity.this, MenuActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         builder.setNegativeButton("NO.", new DialogInterface.OnClickListener() {
