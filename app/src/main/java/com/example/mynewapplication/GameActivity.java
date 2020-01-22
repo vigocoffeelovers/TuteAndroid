@@ -259,15 +259,36 @@ class GameThread extends Thread {
             @Override
             public void run() {
                 gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
+                ArrayList<Cards> cartasOrdenadas = sortHandCards(currentGame.getPlayers().get(0).getHand(), currentGame.getTable().getTriunfo());
                 for (int i=0; i <10 ; i++) {
-                    gameActivity.imagesHand[i].setImageResource(currentGame.getPlayers().get(0).getHand().get(i).getImage(gameActivity.DECK));
-                    gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), currentGame.getPlayers().get(0).getHand().get(i));
+                    gameActivity.imagesHand[i].setImageResource(cartasOrdenadas.get(i).getImage(gameActivity.DECK));
+                    gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), cartasOrdenadas.get(i));
                 }
             }
         });
         nextplayer = startingPlayer;
         startingPlayer = Utils.nextPlayer(startingPlayer);
         newRound(currentGame);
+    }
+
+    public ArrayList<Cards> sortHandCards(ArrayList<Cards> cartas, Cards triunfo){
+        ArrayList<Cards> cartasOrdenadas = new ArrayList<Cards>(); // Arraylist with the cards sorted left to right by "triunfo" and "palo"
+
+        Collections.sort(cartas, Cards.CardsValueComparator); // Compare the cards in increasing "palo" and decreasing value
+
+        for (Cards carta: cartas){ // First, we will save the cards of the "triunfo"
+            if(carta.getSuit().equals(triunfo.getSuit())){
+                cartasOrdenadas.add(carta);
+            }
+        }
+
+        for (Cards carta: cartas){ // Now, we will introduce the other cards sorted
+            if(!carta.getSuit().equals(triunfo.getSuit())){
+                cartasOrdenadas.add(carta);
+            }
+        }
+
+        return cartasOrdenadas;
     }
 
     public void newRound(Game game){
