@@ -183,11 +183,11 @@ public class Game {
     }
 
     
-    
+    /*
     private ArrayList<Cards> askForSing(Player player) {
         return player.sing();
     }
-    
+    */
     
     
     public void addPoints(int team, int points) {
@@ -255,7 +255,7 @@ public class Game {
     public void addRound() {
         round++;
     }
-
+    /*
     public void startGameCLI() {
 
         initialDeal();
@@ -334,7 +334,7 @@ public class Game {
         else
             finishRound(0);
 
-    }
+    }*/
 
 
     
@@ -350,7 +350,7 @@ public class Game {
 
         Game game = new Game(players);
         
-        game.startGameCLI();
+        //game.startGameCLI();
 
     }
 }

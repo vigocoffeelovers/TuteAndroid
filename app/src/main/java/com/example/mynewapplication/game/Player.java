@@ -71,27 +71,27 @@ public class Player {
      * 
      * @return the list of cards to sing
      */
-    public ArrayList<Cards> sing() {
+    public Suits sing() {
         
         ArrayList< ArrayList<Cards> > singCards = checkSingableCards();
         
         if (singCards.isEmpty())
-            return new ArrayList<>();
+            return null;
         
-        for (ArrayList<Cards> s : singCards) { //TUTE
+        /*for (ArrayList<Cards> s : singCards) { //TUTE
             if (s.size()==4)
                 return s;
-        }
+        }*/
         
         for (ArrayList<Cards> s : singCards) { //40s
             if (s.get(0).getSuit().equals(game.table.getTriunfo().getSuit())) {
                 this.sings.add(s.get(0).getSuit());
-                return s;
+                return game.table.getTriunfo().getSuit();
             }
         }
         
         this.sings.add(singCards.get(0).get(0).getSuit()); //20s (da igual cual, pilla el primer palo que le llega)
-        return singCards.get(0);
+        return singCards.get(0).get(0).getSuit();
         
     }
     
@@ -141,6 +141,9 @@ public class Player {
      * 
      * @return List of cards which can be singed
      */
+
+    //TODO Sergio, revisa que esta función esté bien anda
+
     protected ArrayList< ArrayList<Cards> > checkSingableCards () {
         
         ArrayList< ArrayList<Cards> > cardsToSing = new ArrayList<>();
@@ -152,17 +155,17 @@ public class Player {
             else if (d.getNumber().equals(Numbers.KING)) kings.add(d);
         }
         
-        if (kings.size()==4) {
+        /*if (kings.size()==4) {
             cardsToSing.add( kings );
             sings.addAll( Arrays.asList(Suits.values()) );
             return cardsToSing;
-        }
+        }*/
         
-        if (horses.size()==4) {
+        /*if (horses.size()==4) {
             cardsToSing.add( horses );
             sings.addAll(Arrays.asList(Suits.values()));
             return cardsToSing;
-        }
+        }*/
         
         for (Cards h : horses) {
             if (this.sings.contains(h.getSuit())) //Si ya la ha cantado antes o si ya esta añadida a la lista de posibles cantes
