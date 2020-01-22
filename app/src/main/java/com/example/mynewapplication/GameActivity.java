@@ -422,6 +422,39 @@ class GameThread extends Thread {
         game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards)))+extraPoints);
         updateLeaderBoard();
         if ((--roundsUntilEoGame) < 0){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), 10);
+
+
+
+            if (winnerTeam==1){
+                final String msg = ("Your team have won the 10 final points!!!!");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else{
+                final String msg = ("Enemy has won the 10 final points!!!!");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             endOfGame(game);
         } else {
             nextplayer = winnerId;
