@@ -475,7 +475,7 @@
                 android:layout_width="60dp"
                 android:layout_height="79dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/reverso_carta_raro"
+                android:visibility="invisible"
                 android:onClick="jugada_arriba"/>
 
             <ImageView
@@ -483,7 +483,7 @@
                 android:layout_width="60dp"
                 android:layout_height="79dp"
                 android:layout_gravity="bottom"
-                app:srcCompat="@drawable/reverso_carta_raro"
+                android:visibility="invisible"
                 android:onClick="jugada_izquierda" />
 
             <ImageView
@@ -491,7 +491,7 @@
                 android:layout_width="60dp"
                 android:layout_height="79dp"
                 android:layout_gravity="top"
-                app:srcCompat="@drawable/reverso_carta_raro"
+                android:visibility="invisible"
                 android:onClick="jugada_abajo" />
 
             <ImageView
@@ -499,8 +499,8 @@
                 android:layout_width="60dp"
                 android:layout_height="79dp"
                 android:layout_gravity="center"
-                android:onClick="jugada_derecha"
-                app:srcCompat="@drawable/reverso_carta_raro" />
+                android:visibility="invisible"
+                android:onClick="jugada_derecha"/>
 
         </LinearLayout>
 
