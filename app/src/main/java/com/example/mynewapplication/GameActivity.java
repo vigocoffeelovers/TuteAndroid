@@ -338,6 +338,7 @@ class GameThread extends Thread {
                 for (int i=0; i <10 ; i++) {
                     gameActivity.imagesHand[i].setImageResource(cartasOrdenadas.get(i).getImage(gameActivity.DECK));
                     gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), cartasOrdenadas.get(i));
+                    gameActivity.imagesHand[i].setVisibility(View.VISIBLE);
                 }
             }
         });

@@ -126,6 +126,14 @@
                 android:visibility="visible">
 
                 <RadioButton
+                    android:id="@+id/num_games_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="changedNumGames"
+                    android:checked="true"
+                    android:text="1" />
+
+                <RadioButton
                     android:id="@+id/num_games_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,14 +146,6 @@
                     android:layout_height="wrap_content"
                     android:onClick="changedNumGames"
                     android:text="5" />
-
-                <RadioButton
-                    android:id="@+id/num_games_7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:onClick="changedNumGames"
-                    android:text="7" />
             </RadioGroup>
         </LinearLayout>
 
