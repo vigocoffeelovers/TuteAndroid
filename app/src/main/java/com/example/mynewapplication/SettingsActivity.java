@@ -5,13 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    RadioGroup levelMate;
+    RadioGroup levelEnemies;
+    RadioGroup numOfGames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,28 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        levelMate = this.findViewById(R.id.level_mate);
+        levelEnemies = this.findViewById(R.id.level_opponent);
+        numOfGames = this.findViewById(R.id.num_games);
+    }
+
+    public void changedLevelMate(View view){
+        int selected = levelMate.getCheckedRadioButtonId();
+        RadioButton selectedRadioButton= findViewById(selected);
+        Model.instance().setAllyDifficulty(selectedRadioButton.getText().toString());
+    }
+
+    public void changedLevelEnemies(View view){
+        int selected = levelEnemies.getCheckedRadioButtonId();
+        RadioButton selectedRadioButton= findViewById(selected);
+        Model.instance().setEnemiesDifficulty(selectedRadioButton.getText().toString());
+    }
+
+    public void changedNumGames(View view){
+        int selected = numOfGames.getCheckedRadioButtonId();
+        RadioButton selectedRadioButton= findViewById(selected);
+        Model.instance().setNumOfGames(Integer.parseInt(selectedRadioButton.getText().toString()));
     }
 
     @Override

@@ -3,12 +3,9 @@ package com.example.mynewapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,7 +30,10 @@ public class GameActivity extends AppCompatActivity{
 
     //For now static constants, in future will be suitables on the setting smenu
     public final static int DECK = 0;
-    public final static int GAMES_TO_WIN = 1;
+
+    static int gamesToWin = 1;
+    static String allyDifficulty = "Medium";
+    static String enemiesDifficulty = "Medium";
 
 
     //Used to obtain the id of a clicked View (the card clicked)
@@ -148,6 +148,10 @@ public class GameActivity extends AppCompatActivity{
                 this.findViewById(R.id.carta_izq_9),
                 this.findViewById(R.id.carta_izq_10)
         )).toArray(leftCards);
+
+        gamesToWin = Model.instance().getNumOfGames();
+        allyDifficulty = Model.instance().getAllyDifficulty();
+        enemiesDifficulty = Model.instance().getEnemiesDifficulty();
 
         gameThread = new GameThread(this);
         gameThread.start();
@@ -334,6 +338,7 @@ class GameThread extends Thread {
                 for (int i=0; i <10 ; i++) {
                     gameActivity.imagesHand[i].setImageResource(cartasOrdenadas.get(i).getImage(gameActivity.DECK));
                     gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), cartasOrdenadas.get(i));
+                    gameActivity.imagesHand[i].setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -553,8 +558,6 @@ class GameThread extends Thread {
             }
             game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), 10);
 
-
-
             if (winnerTeam==1){
                 final String msg = ("Your team have won the 10 final points!!!!");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -573,13 +576,15 @@ class GameThread extends Thread {
                 });
             }
 
+            updateLeaderBoard();
+
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            endOfGame(game);
+            endOfGame(game, winnerTeam);
         } else {
             nextplayer = winnerId;
             game.addRound();
@@ -615,14 +620,22 @@ class GameThread extends Thread {
         });
     }
 
-    private void endOfGame(Game game) {
+    private void endOfGame(Game game, int last10pointsTeam) {
         if (currentGame.getPoints(1) > currentGame.getPoints(2)){
             allyGames++;
-        } else {
+        } else if (currentGame.getPoints(1) < currentGame.getPoints(2)){
             enemyGames++;
+        } else {
+            if(last10pointsTeam==1){
+                allyGames++;
+            } else {
+                enemyGames++;
+            }
         }
 
-        if (allyGames >= GameActivity.GAMES_TO_WIN || enemyGames >= gameActivity.GAMES_TO_WIN){
+        updateLeaderBoard();
+
+        if (allyGames >= GameActivity.gamesToWin || enemyGames >= gameActivity.gamesToWin){
             if (allyGames > enemyGames){
                 showEndDialog(1);
             } else{
