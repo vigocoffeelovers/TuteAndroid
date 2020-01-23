@@ -329,7 +329,6 @@
             android:id="@+id/carta_jp_6"
             android:layout_width="70dp"
             android:layout_height="107.3dp"
-            android:layout_height="131dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="click_card"/>
 
@@ -379,23 +378,25 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@id/mano_arriba"
         android:layout_toRightOf="@id/triunfo"
+        android:layout_above="@id/table"
         android:onClick="laderboard"
         android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:background="@drawable/scoreboard_backgorund"
         android:paddingTop="10dp">
 
         <LinearLayout
             android:id="@+id/allyScoreboardLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/allyTeamName"
-                android:layout_width="50dp"
+                android:layout_width="45dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ally:"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20dp" />
 
@@ -420,15 +421,15 @@
         <LinearLayout
             android:id="@+id/enemyScoreboardLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/enemyTeamName"
-                android:layout_width="50dp"
+                android:layout_width="45dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Enemy:"
+                android:text=""
                 android:textSize="20dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -453,6 +454,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/mano_arriba"
