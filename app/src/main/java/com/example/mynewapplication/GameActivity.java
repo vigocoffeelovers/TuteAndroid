@@ -557,7 +557,7 @@ class GameThread extends Thread {
             }
             game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), 10);
 
-
+            updateLeaderBoard();
 
             if (winnerTeam==1){
                 final String msg = ("Your team have won the 10 final points!!!!");
@@ -583,7 +583,7 @@ class GameThread extends Thread {
                 e.printStackTrace();
             }
 
-            endOfGame(game);
+            endOfGame(game, winnerTeam);
         } else {
             nextplayer = winnerId;
             game.addRound();
@@ -619,12 +619,20 @@ class GameThread extends Thread {
         });
     }
 
-    private void endOfGame(Game game) {
+    private void endOfGame(Game game, int last10pointsTeam) {
         if (currentGame.getPoints(1) > currentGame.getPoints(2)){
             allyGames++;
-        } else {
+        } else if (currentGame.getPoints(1) < currentGame.getPoints(2)){
             enemyGames++;
+        } else {
+            if(last10pointsTeam==1){
+                allyGames++;
+            } else {
+                enemyGames++;
+            }
         }
+
+        updateLeaderBoard();
 
         if (allyGames >= GameActivity.gamesToWin || enemyGames >= gameActivity.gamesToWin){
             if (allyGames > enemyGames){
