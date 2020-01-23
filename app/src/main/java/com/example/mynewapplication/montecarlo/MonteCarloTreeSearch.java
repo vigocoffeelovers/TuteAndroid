@@ -27,8 +27,6 @@ public class MonteCarloTreeSearch {
         int count = 0;
 
         System.out.println();
-        System.out.println("[SYM] Round : " + game.getRound());
-        System.out.println("[SYM] Cards : " + game.table.getTotalPlayedCards().size());
         System.out.println();
 
         while (System.currentTimeMillis() < end) {
@@ -38,7 +36,7 @@ public class MonteCarloTreeSearch {
             backPropogation(nodeToExplore, hasWon);
         }
 
-        //System.out.println("COUNT --> " + count);
+        System.out.println("[COUNT] --> " + count);
 
         String currentPlayerName = game.getCurrentPlayer().getName();
         Node winnerNode = rootNode.getChildWithMaxScore();
@@ -75,7 +73,7 @@ public class MonteCarloTreeSearch {
     private void backPropogation(Node nodeToExplore, boolean hasWon) {
         Node tempNode = nodeToExplore;
         tempNode.getState().incrementVisit();
-        if (hasWon) // He ganado, entonces recompenso jugar esta carta
+        if (hasWon) //He ganado, entonces recompenso jugar esta carta
             tempNode.getState().addScore(WIN_SCORE);
     }
 

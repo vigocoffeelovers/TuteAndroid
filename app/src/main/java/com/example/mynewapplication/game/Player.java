@@ -95,45 +95,6 @@ public class Player {
         
     }
     
-    
-    
-    /**
-     * Check the won card in any list of cards
-     * @param cards Cards to comparate
-     * @return the won card among the given list ones
-     */
-    protected Cards checkWonCard(ArrayList<Cards> cards) {
-        
-        Cards firstCard = cards.get(0);
-        Suits triunfo = game.table.getTriunfo().getSuit();
-        
-        Cards bestCard = null;
-        
-        for (Cards c : cards) { //Busco el triufo mas alto
-            
-            if (bestCard == null && c.getSuit().equals(triunfo)) {
-                bestCard = c;
-            } else if (c.getSuit().equals(triunfo) && c.compareTo(bestCard) > 0) {
-                bestCard = c;
-            }
-            
-        }
-        
-        if (bestCard == null) {
-            bestCard = firstCard;
-            for (Cards c : cards) {
-                if (c.getSuit().equals(bestCard.getSuit()) && c.getNumber().compareTo(bestCard.getNumber()) > 0) { //si es del mismo palo y de mayor valor
-                    bestCard = c;
-                }
-            }
-        }
-        
-        return bestCard;
-        
-    }
-    
-    
-    
     /**
      * Search the cards in the player hand which can be singed.
      * 
@@ -141,8 +102,6 @@ public class Player {
      * 
      * @return List of cards which can be singed
      */
-
-    //TODO Sergio, revisa que esta función esté bien anda
 
     protected ArrayList< ArrayList<Cards> > checkSingableCards () {
         
@@ -194,7 +153,7 @@ public class Player {
         if (playedCards.isEmpty()) {
             return hand;
         }
-        Cards winCard                   = checkWonCard(playedCards);
+        Cards winCard                   = game.checkWonPlay().getValue();
         Cards firstCard                 = playedCards.get(0);
         Cards Triunfo                   = game.table.getTriunfo();
         
@@ -202,7 +161,6 @@ public class Player {
         //ArrayList<Cards> CartasParaSubirAlPrimerJugador     = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit()) && c.getNumber().compareTo(firstCard.getNumber()) > 0         ).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Cards> CartasParaSubirALaMejorCarta       = hand.stream().filter( c -> c.getSuit().equals(winCard.getSuit())   && c.getNumber().compareTo(winCard.getNumber())   > 0         ).collect(Collectors.toCollection(ArrayList::new)   );
         ArrayList<Cards> CartasTriunfos                     = hand.stream().filter( c -> c.getSuit().equals(Triunfo.getSuit())                                                                  ).collect(Collectors.toCollection(ArrayList::new)   );
-
 
         if ( !firstCard.getSuit().equals(Triunfo.getSuit()) && winCard.getSuit().equals(Triunfo.getSuit()) ) { //si se ha fallado con triunfo
             

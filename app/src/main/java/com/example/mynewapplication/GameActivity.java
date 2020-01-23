@@ -468,7 +468,8 @@ class GameThread extends Thread {
 
     boolean isCardValid(Cards card){
         ArrayList<Cards> playableCards = currentGame.getPlayers().get(0).checkPlayableCards();
-        //System.out.println(playableCards);
+        System.out.println("TABLE --> \t"+currentGame.table.getPlayedCards());
+        System.out.println("JUGABLES --> \t"+playableCards);
         return playableCards.contains(card);
     }
 
@@ -481,7 +482,10 @@ class GameThread extends Thread {
         }
         setBoardInvisible();
         int winnerId = - 1;
-        Cards wonCard = game.checkWonCard(new ArrayList<>(Arrays.asList(onBoardCards)));
+        ArrayList<Cards> list_onBoardCards = new ArrayList<>(Arrays.asList(onBoardCards));
+        Collections.rotate(list_onBoardCards,3-nextplayer);
+        System.err.println("    "+ list_onBoardCards);
+        Cards wonCard = game.checkWonCard(list_onBoardCards);
         for (int i = 0; i < 4; i++) {
             if(onBoardCards[i] == wonCard){
                 winnerId = i;
