@@ -3,12 +3,9 @@ package com.example.mynewapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,7 +30,10 @@ public class GameActivity extends AppCompatActivity{
 
     //For now static constants, in future will be suitables on the setting smenu
     public final static int DECK = 0;
-    public final static int GAMES_TO_WIN = 1;
+
+    static int gamesToWin = 1;
+    static String allyDificulty = "Medium";
+    static String enemiesDeficulty = "Medium";
 
 
     //Used to obtain the id of a clicked View (the card clicked)
@@ -148,6 +148,10 @@ public class GameActivity extends AppCompatActivity{
                 this.findViewById(R.id.carta_izq_9),
                 this.findViewById(R.id.carta_izq_10)
         )).toArray(leftCards);
+
+        gamesToWin = Model.instance().getNumOfGames();
+        allyDificulty = Model.instance().getAllyDificulty();
+        enemiesDeficulty = Model.instance().getEnemiesDeficulty();
 
         gameThread = new GameThread(this);
         gameThread.start();
@@ -622,7 +626,7 @@ class GameThread extends Thread {
             enemyGames++;
         }
 
-        if (allyGames >= GameActivity.GAMES_TO_WIN || enemyGames >= gameActivity.GAMES_TO_WIN){
+        if (allyGames >= GameActivity.gamesToWin || enemyGames >= gameActivity.gamesToWin){
             if (allyGames > enemyGames){
                 showEndDialog(1);
             } else{
