@@ -237,7 +237,7 @@ public class GameActivity extends AppCompatActivity{
             clickedId = view.getId();
             Cards clickedCard = cardsHand.get(clickedId);
             if (gameThread.isCardValid(clickedCard)){
-                System.out.println("Player plays: " + clickedCard.toString());
+                //System.out.println("Player plays: " + clickedCard.toString());
                 cardsHand.remove(clickedId);
                 view.setVisibility(View.GONE);
                 for (ImageView card:imagesHand) {
@@ -363,7 +363,6 @@ class GameThread extends Thread {
     }
 
     public void newRound(Game game){
-            game.addRound();
             playsUntilEoRound = 3;
             currentGame.table.removeCurrentPlay();
             playNextPlayer(game);
@@ -373,7 +372,7 @@ class GameThread extends Thread {
      *  Asks the next player to play a card (if the player is a machine it will play it, if it is a human this function will end -see Human.playCard for more info-)
      */
     public void playNextPlayer(Game game) {
-        System.out.println("Player: " + nextplayer + " turn");
+        //System.out.println("Player: " + nextplayer + " turn");
         game.setCurrentPlayer(game.getPlayers().get(nextplayer));
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = players.get(nextplayer).playCard();
@@ -398,11 +397,11 @@ class GameThread extends Thread {
         }
         currentGame.table.addPlayedCard(gameActivity.players.get(nextplayer),playedCard);
         int temp = nextplayer;
-        try {
+        /*try {
             sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -421,15 +420,15 @@ class GameThread extends Thread {
                 gameActivity.imagesBoard[temp].setVisibility(View.VISIBLE);
             }
         });
-        try {
+        /*try {
             sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        System.out.println("Player: " + nextplayer + " played: " + playedCard.getNumber() + " of " + playedCard.getSuit());
+        }*/
+        //System.out.println("Player: " + nextplayer + " played: " + playedCard.getNumber() + " of " + playedCard.getSuit());
         onBoardCards[nextplayer] = playedCard;
         nextplayer = Utils.nextPlayer(nextplayer);
-        System.out.println("Plays until End of Round: " + playsUntilEoRound);
+        //System.out.println("Plays until End of Round: " + playsUntilEoRound);
         if((--playsUntilEoRound) < 0) {
             endOfRound(game);
         }else{
@@ -446,15 +445,15 @@ class GameThread extends Thread {
                 gameActivity.imagesBoard[0].setVisibility(View.VISIBLE);
             }
         });
-        try {
+        /*try {
             sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         onBoardCards[0] = playedCard;
         nextplayer = Utils.nextPlayer(nextplayer);
         currentGame.table.addPlayedCard(gameActivity.players.get(0),playedCard); //The user will always be player 0
-        System.out.println("Plays until End of Round: " + playsUntilEoRound);
+        //System.out.println("Plays until End of Round: " + playsUntilEoRound);
         if((--playsUntilEoRound) < 0) {
             endOfRound(currentGame);
         }else{
@@ -464,12 +463,17 @@ class GameThread extends Thread {
 
     boolean isCardValid(Cards card){
         ArrayList<Cards> playableCards = currentGame.getPlayers().get(0).checkPlayableCards();
-        System.out.println(playableCards);
+        //System.out.println(playableCards);
         return playableCards.contains(card);
     }
 
     private void endOfRound(Game game) {
         String verb;
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         setBoardInvisible();
         int winnerId = - 1;
         Cards wonCard = game.checkWonCard(new ArrayList<>(Arrays.asList(onBoardCards)));
@@ -539,6 +543,7 @@ class GameThread extends Thread {
 
 
         game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), Cards.calculatePoints(new ArrayList<>(Arrays.asList(onBoardCards)))+extraPoints);
+
         updateLeaderBoard();
         if ((--roundsUntilEoGame) < 0){
             try {
@@ -577,6 +582,7 @@ class GameThread extends Thread {
             endOfGame(game);
         } else {
             nextplayer = winnerId;
+            game.addRound();
             newRound(game);
         }
     }
@@ -597,11 +603,11 @@ class GameThread extends Thread {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                try {
+                /*try {
                     sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 for (ImageView image:gameActivity.imagesBoard) {
                     image.setVisibility(View.INVISIBLE);
                 }

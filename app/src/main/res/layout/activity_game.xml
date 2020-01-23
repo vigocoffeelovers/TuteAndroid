@@ -329,6 +329,7 @@
             android:id="@+id/carta_jp_6"
             android:layout_width="70dp"
             android:layout_height="107.3dp"
+            android:layout_height="131dp"
             app:srcCompat="@drawable/reverso_carta"
             android:onClick="click_card"/>
 
