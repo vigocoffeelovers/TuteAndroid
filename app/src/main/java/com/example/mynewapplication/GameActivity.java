@@ -557,8 +557,6 @@ class GameThread extends Thread {
             }
             game.addPoints(game.getTeam(game.getPlayers().get(winnerId)), 10);
 
-            updateLeaderBoard();
-
             if (winnerTeam==1){
                 final String msg = ("Your team have won the 10 final points!!!!");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -576,6 +574,8 @@ class GameThread extends Thread {
                     }
                 });
             }
+
+            updateLeaderBoard();
 
             try {
                 sleep(1000);
