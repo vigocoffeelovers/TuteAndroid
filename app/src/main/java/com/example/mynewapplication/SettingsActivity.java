@@ -3,13 +3,10 @@ package com.example.mynewapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,14 +46,14 @@ public class SettingsActivity extends AppCompatActivity {
         int selected = levelMate.getCheckedRadioButtonId();
         RadioButton selectedRadioButton= findViewById(selected);
         System.out.println("Se ha clickado: " + selectedRadioButton.getText());
-        Model.instance().setAllyDificulty(selectedRadioButton.getText().toString());
+        Model.instance().setAllyDifficulty(selectedRadioButton.getText().toString());
     }
 
     public void changedLevelenemies(View view){
         int selected = levelEnemies.getCheckedRadioButtonId();
         RadioButton selectedRadioButton= findViewById(selected);
         System.out.println("Se ha clickado: " + selectedRadioButton.getText());
-        Model.instance().setEnemiesDeficulty(selectedRadioButton.getText().toString());
+        Model.instance().setEnemiesDifficulty(selectedRadioButton.getText().toString());
     }
 
     public void changedNumGames(View view){

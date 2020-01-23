@@ -32,8 +32,8 @@ public class GameActivity extends AppCompatActivity{
     public final static int DECK = 0;
 
     static int gamesToWin = 1;
-    static String allyDificulty = "Medium";
-    static String enemiesDeficulty = "Medium";
+    static String allyDifficulty = "Medium";
+    static String enemiesDifficulty = "Medium";
 
 
     //Used to obtain the id of a clicked View (the card clicked)
@@ -150,8 +150,8 @@ public class GameActivity extends AppCompatActivity{
         )).toArray(leftCards);
 
         gamesToWin = Model.instance().getNumOfGames();
-        allyDificulty = Model.instance().getAllyDificulty();
-        enemiesDeficulty = Model.instance().getEnemiesDeficulty();
+        allyDifficulty = Model.instance().getAllyDifficulty();
+        enemiesDifficulty = Model.instance().getEnemiesDifficulty();
 
         gameThread = new GameThread(this);
         gameThread.start();

@@ -5,14 +5,14 @@ package com.example.mynewapplication;
  */
 public class Model {
     private static Model __instance = null;
-    private String allyDificulty;
-    private String enemiesDeficulty;
+    private String allyDifficulty;
+    private String enemiesDifficulty;
     private int numOfGames;
 
 
     private Model() {
-        allyDificulty = "Medium";
-        enemiesDeficulty = "Medium";
+        allyDifficulty = "Medium";
+        enemiesDifficulty = "Medium";
         numOfGames = 7;
     }
 
@@ -26,20 +26,20 @@ public class Model {
     }
 
     // Mediante estas funciones podremos cambiar los ajustes
-    public String getAllyDificulty() {
-        return allyDificulty;
+    public String getAllyDifficulty() {
+        return allyDifficulty;
     }
 
-    public void setAllyDificulty(String allyDificulty) {
-        this.allyDificulty = allyDificulty;
+    public void setAllyDifficulty(String allyDifficulty) {
+        this.allyDifficulty = allyDifficulty;
     }
 
-    public String getEnemiesDeficulty() {
-        return enemiesDeficulty;
+    public String getEnemiesDifficulty() {
+        return enemiesDifficulty;
     }
 
-    public void setEnemiesDeficulty(String enemiesDeficulty) {
-        this.enemiesDeficulty = enemiesDeficulty;
+    public void setEnemiesDifficulty(String enemiesDifficulty) {
+        this.enemiesDifficulty = enemiesDifficulty;
     }
 
     public int getNumOfGames() {
