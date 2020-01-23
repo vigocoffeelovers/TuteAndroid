@@ -45,21 +45,18 @@ public class SettingsActivity extends AppCompatActivity {
     public void changedLevelMate(View view){
         int selected = levelMate.getCheckedRadioButtonId();
         RadioButton selectedRadioButton= findViewById(selected);
-        System.out.println("Se ha clickado: " + selectedRadioButton.getText());
         Model.instance().setAllyDifficulty(selectedRadioButton.getText().toString());
     }
 
-    public void changedLevelenemies(View view){
+    public void changedLevelEnemies(View view){
         int selected = levelEnemies.getCheckedRadioButtonId();
         RadioButton selectedRadioButton= findViewById(selected);
-        System.out.println("Se ha clickado: " + selectedRadioButton.getText());
         Model.instance().setEnemiesDifficulty(selectedRadioButton.getText().toString());
     }
 
     public void changedNumGames(View view){
         int selected = numOfGames.getCheckedRadioButtonId();
         RadioButton selectedRadioButton= findViewById(selected);
-        System.out.println("Se ha clickado: " + selectedRadioButton.getText());
         Model.instance().setNumOfGames(Integer.parseInt(selectedRadioButton.getText().toString()));
     }
 

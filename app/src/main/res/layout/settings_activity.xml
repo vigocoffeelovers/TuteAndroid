@@ -76,14 +76,14 @@
                 android:id="@+id/level_opponent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="changedLevelenemies"
+                android:onClick="changedLevelEnemies"
                 android:visibility="visible">
 
                 <RadioButton
                     android:id="@+id/opponent_easy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="changedLevelenemies"
+                    android:onClick="changedLevelEnemies"
                     android:text="Easy" />
 
                 <RadioButton
@@ -91,14 +91,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:onClick="changedLevelenemies"
+                    android:onClick="changedLevelEnemies"
                     android:text="Medium" />
 
                 <RadioButton
                     android:id="@+id/opponent_hard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="changedLevelenemies"
+                    android:onClick="changedLevelEnemies"
                     android:text="Hard" />
             </RadioGroup>
         </LinearLayout>
