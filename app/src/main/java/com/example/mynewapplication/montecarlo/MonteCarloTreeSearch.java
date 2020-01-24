@@ -13,10 +13,15 @@ public class MonteCarloTreeSearch {
 
     private static final int WIN_SCORE = 10;
 
-    public Cards findNextPlay(Game game) {
+    /**
+     *
+     * @param game
+     * @param timeToThink on miliseconds
+     */
+    public Cards findNextPlay(Game game, int timeToThink) {
 
         long start = System.currentTimeMillis();
-        long end = start + 2000;
+        long end = start + timeToThink;
 
         Tree tree = new Tree(game);
         Node rootNode = tree.getRoot();
@@ -29,12 +34,12 @@ public class MonteCarloTreeSearch {
         System.out.println();
         System.out.println();
 
-        while (System.currentTimeMillis() < end) {
+        do {
             count++;
             Node nodeToExplore = rootNode.getRandomChildNode();
             Boolean hasWon = simulateRandomGame(nodeToExplore); //Simulamos la jugada completa(de momento solo una "vuelta")
             backPropogation(nodeToExplore, hasWon);
-        }
+        } while (System.currentTimeMillis() < end);
 
         System.out.println("[COUNT] --> " + count);
 

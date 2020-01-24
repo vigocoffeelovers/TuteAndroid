@@ -32,8 +32,8 @@ public class GameActivity extends AppCompatActivity{
     public final static int DECK = 0;
 
     static int gamesToWin = 1;
-    static String allyDifficulty = "Medium";
-    static String enemiesDifficulty = "Medium";
+    static int allyThinkingTime = 750;
+    static int enemiesThinkingTime = 750;
 
 
     //Used to obtain the id of a clicked View (the card clicked)
@@ -150,8 +150,36 @@ public class GameActivity extends AppCompatActivity{
         )).toArray(leftCards);
 
         gamesToWin = Model.instance().getNumOfGames();
-        allyDifficulty = Model.instance().getAllyDifficulty();
-        enemiesDifficulty = Model.instance().getEnemiesDifficulty();
+        String allyDifficulty = Model.instance().getAllyDifficulty();
+        switch (allyDifficulty){
+            case "Easy":
+                allyThinkingTime = 0;
+                break;
+            case "Medium":
+                allyThinkingTime = 750;
+                break;
+            case "Hard":
+                allyThinkingTime = 2000;
+                break;
+            default:
+                break;
+        }
+        String enemiesDifficulty = Model.instance().getEnemiesDifficulty();
+        switch (enemiesDifficulty){
+            case "Easy":
+                enemiesThinkingTime = 0;
+                break;
+            case "Medium":
+                enemiesThinkingTime = 750;
+                break;
+            case "Hard":
+                enemiesThinkingTime = 2000;
+                break;
+            default:
+                break;
+        }
+
+        System.out.println("Ajustes: \n Ally: " + allyThinkingTime + "\n Enemies: " + enemiesThinkingTime);
 
         gameThread = new GameThread(this);
         gameThread.start();
@@ -380,37 +408,68 @@ class GameThread extends Thread {
         //System.out.println("Player: " + nextplayer + " turn");
         game.setCurrentPlayer(game.getPlayers().get(nextplayer));
         ArrayList<Player> players = game.getPlayers();
-        Cards playedCard = players.get(nextplayer).playCard();
-        if (playedCard == null){
-            ArrayList<Cards> playableCards = players.get(nextplayer).checkPlayableCards();
-            Set<Integer> idRecursoSet = gameActivity.cardsHand.keySet();
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    for (int idRecurso:idRecursoSet) {
-                        ImageView view = gameActivity.findViewById(idRecurso);
-                        if (playableCards.contains(gameActivity.cardsHand.get(idRecurso))){
-                            view.setBackgroundResource(R.drawable.card_avaliable);
-                        } else {
-                            view.getLayoutParams().height = gameActivity.dpToPx(98);
-                            view.getLayoutParams().width = gameActivity.dpToPx(64);
+        Cards playedCard = null;
+        switch (nextplayer){
+            case 0:
+                ArrayList<Cards> playableCards = players.get(nextplayer).checkPlayableCards();
+                Set<Integer> idRecursoSet = gameActivity.cardsHand.keySet();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int idRecurso:idRecursoSet) {
+                            ImageView view = gameActivity.findViewById(idRecurso);
+                            if (playableCards.contains(gameActivity.cardsHand.get(idRecurso))){
+                                view.setBackgroundResource(R.drawable.card_avaliable);
+                            } else {
+                                view.getLayoutParams().height = gameActivity.dpToPx(98);
+                                view.getLayoutParams().width = gameActivity.dpToPx(64);
+                            }
                         }
                     }
+                });
+                return;
+            case 1:
+                // This will prevent too fast animations when time to think is low
+                if (gameActivity.enemiesThinkingTime < 500){
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            });
-            return;
+                playedCard = players.get(nextplayer).playCard(gameActivity.enemiesThinkingTime);
+                break;
+            case 2:
+                // This will prevent too fast animations when time to think is low
+                if (gameActivity.allyThinkingTime < 500){
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                playedCard = players.get(nextplayer).playCard(gameActivity.allyThinkingTime);
+                break;
+            case 3:
+                // This will prevent too fast animations when time to think is low
+                if (gameActivity.enemiesThinkingTime < 500){
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                playedCard = players.get(nextplayer).playCard(gameActivity.enemiesThinkingTime);
+                break;
         }
         currentGame.table.addPlayedCard(gameActivity.players.get(nextplayer),playedCard);
-        int temp = nextplayer;
-        /*try {
-            sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+        int temp_nextPlayer = nextplayer;
+        Cards temp_playedCard = playedCard;
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                switch (temp){
+                switch (temp_nextPlayer){
                     case 1:
                         gameActivity.setRightCardsVisibility(roundsUntilEoGame);
                     break;
@@ -421,8 +480,8 @@ class GameThread extends Thread {
                         gameActivity.setLeftCardsVisibility(roundsUntilEoGame);
                     break;
                 }
-                gameActivity.imagesBoard[temp].setImageResource(playedCard.getImage(gameActivity.DECK));
-                gameActivity.imagesBoard[temp].setVisibility(View.VISIBLE);
+                gameActivity.imagesBoard[temp_nextPlayer].setImageResource(temp_playedCard.getImage(gameActivity.DECK));
+                gameActivity.imagesBoard[temp_nextPlayer].setVisibility(View.VISIBLE);
             }
         });
         /*try {
@@ -483,7 +542,10 @@ class GameThread extends Thread {
         setBoardInvisible();
         int winnerId = - 1;
         ArrayList<Cards> list_onBoardCards = new ArrayList<>(Arrays.asList(onBoardCards));
-        Collections.rotate(list_onBoardCards,3-nextplayer);
+
+        System.err.println("Next player: " + nextplayer);
+        System.err.println("    " + list_onBoardCards.toString());
+        Collections.rotate(list_onBoardCards, 4 - nextplayer);
         System.err.println("    "+ list_onBoardCards);
         Cards wonCard = game.checkWonCard(list_onBoardCards);
         for (int i = 0; i < 4; i++) {

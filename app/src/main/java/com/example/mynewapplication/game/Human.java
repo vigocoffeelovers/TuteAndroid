@@ -21,7 +21,7 @@ public class Human extends Player {
      * @return null
      */
     @Override
-    public Cards playCard() {
+    public Cards playCard(int timeToThink) {
         return null;
     }
 }

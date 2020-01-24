@@ -16,4 +16,11 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- About Stirngs -->
+    <string name="version">Version 1.0</string>
+    <string name="version_0_1_info">[0.1] Interactive GUI to travel the menus </string>
+    <string name="version_0_2_info">[0.2] Added Game functionalities</string>
+    <string name="version_0_3_info">[0.3] Implemented IA\'s MonteCarlo Searching Tree Algorithm</string>
+    <string name="version_1_0_info">[1.0] Stable version, improved IA and interface</string>
 </resources>

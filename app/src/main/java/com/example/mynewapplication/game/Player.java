@@ -53,10 +53,10 @@ public class Player {
      * Choose a card from among his hand to play in his next play.
      * @return the chosen card to play
      */
-    public Cards playCard() {
+    public Cards playCard(int timeToThink) {
         ArrayList<Cards> playableCards = checkPlayableCards();
         //Cards chosen_card = playableCards.get((int)(Math.random()*playableCards.size())); //TODO Now is being choosing a random card
-        Cards chosen_card = new MonteCarloTreeSearch().findNextPlay(game);
+        Cards chosen_card = new MonteCarloTreeSearch().findNextPlay(game, timeToThink);
         return chosen_card;
     }
     

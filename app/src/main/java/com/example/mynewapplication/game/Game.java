@@ -177,11 +177,11 @@ public class Game {
     }
     
     
-    
+    /* CLI function
     private Cards askForCard(Player player) {
         return player.playCard();
     }
-
+    */
     
     /*
     private ArrayList<Cards> askForSing(Player player) {
