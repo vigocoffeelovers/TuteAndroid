@@ -483,7 +483,10 @@ class GameThread extends Thread {
         setBoardInvisible();
         int winnerId = - 1;
         ArrayList<Cards> list_onBoardCards = new ArrayList<>(Arrays.asList(onBoardCards));
-        Collections.rotate(list_onBoardCards,3-nextplayer);
+
+        System.err.println("Next player: " + nextplayer);
+        System.err.println("    " + list_onBoardCards.toString());
+        Collections.rotate(list_onBoardCards, 4 - nextplayer);
         System.err.println("    "+ list_onBoardCards);
         Cards wonCard = game.checkWonCard(list_onBoardCards);
         for (int i = 0; i < 4; i++) {
