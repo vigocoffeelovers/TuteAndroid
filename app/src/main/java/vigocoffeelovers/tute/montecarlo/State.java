@@ -1,34 +1,37 @@
-package com.example.mynewapplication.montecarlo;
+package vigocoffeelovers.tute.montecarlo;
 
-import com.example.mynewapplication.game.*;
+import vigocoffeelovers.tute.game.*;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class State {
 
     private Game game;
     private int visitCount;
     private double winScore;
 
-    public State(Game game) {
+    State(Game game) {
         this.game = new Game(game);
     }
 
-    public State(State state) {
+    State(State state) {
         this.game = new Game(state.getGame());
         this.visitCount = state.getVisitCount();
         this.winScore = state.getWinScore();
     }
 
-    public ArrayList<State> getAllPossibleStates() {
+    ArrayList<State> getAllPossibleStates() {
         ArrayList<State> possibleStates = new ArrayList<>();
         Player currentPlayer = game.getCurrentPlayer();
         ArrayList<Cards> playableCards = currentPlayer.checkPlayableCards();
-        for (int i=0;i<playableCards.size(); i++) { //TODO si aqui se pone un for-each, a la segunda ronda/vuelta salta una excepcion de tipo [java.util.ConcurrentModificationException]
+        for (int i=0;i<playableCards.size(); i++) {
             State newState = new State(game);
             Game copyGame = newState.getGame();
             copyGame.getTable().addPlayedCard(currentPlayer, playableCards.get(i));
-            //TODO enough?
             possibleStates.add(newState);
         }
         return possibleStates;
@@ -38,16 +41,14 @@ public class State {
         return game;
     }
 
-    public int getVisitCount() { return visitCount; }
+    int getVisitCount() { return visitCount; }
 
-    public void setVisitCount(int visitCount) { this.visitCount = visitCount; }
+    void incrementVisit() { this.visitCount++; }
 
-    public void incrementVisit() { this.visitCount++; }
+    double getWinScore() { return winScore; }
 
-    public double getWinScore() { return winScore; }
-
-    public void addScore(double score) {
-        if (this.winScore != Integer.MIN_VALUE) //TODO ?¿?
+    void addScore(double score) {
+        if (this.winScore != Integer.MIN_VALUE)
             this.winScore += score;
     }
 

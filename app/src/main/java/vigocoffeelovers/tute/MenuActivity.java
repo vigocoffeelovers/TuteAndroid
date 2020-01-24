@@ -1,17 +1,19 @@
-package com.example.mynewapplication;
+package vigocoffeelovers.tute;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.mynewapplication.game.Game;
 
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class MenuActivity extends AppCompatActivity {
 
     @Override
@@ -35,18 +37,8 @@ public class MenuActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
         builder.setMessage("Are you sure to leave the game?");
         builder.setCancelable(true);
-        builder.setPositiveButton("Yes, please!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton("NO.", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton("Yes, please!", (dialog, which) -> finish());
+        builder.setNegativeButton("NO.", (dialog, which) -> dialog.dismiss());
 
         builder.show();
     }

@@ -1,4 +1,4 @@
-package com.example.mynewapplication;
+package vigocoffeelovers.tute;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mynewapplication.game.*;
+import vigocoffeelovers.tute.game.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,10 +27,14 @@ import java.util.Random;
 import java.util.Set;
 
 
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class GameActivity extends AppCompatActivity{
 
-    //For now static constants, in future will be suitables on the setting smenu
-    public final static int DECK = 0;
+    // On future versions this will be editable
+    public final int DECK = 0;
 
     int gamesToWin = 1;
     int allyThinkingTime = 750;
@@ -183,8 +187,6 @@ public class GameActivity extends AppCompatActivity{
 
         firstPlayerRandom = Model.instance().isFirstPlayerRandom();
 
-        System.out.println("Ajustes: \n Ally: " + allyThinkingTime + "\n Enemies: " + enemiesThinkingTime);
-
         gameThread = new GameThread(this);
         gameThread.start();
     }
@@ -238,27 +240,18 @@ public class GameActivity extends AppCompatActivity{
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
         builder.setMessage("Are you sure to leave the game?");
         builder.setCancelable(true);
-        builder.setPositiveButton("Yes, please!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(GameActivity.this, MenuActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        builder.setPositiveButton("Yes, please!", (dialog, which) -> {
+            Intent intent = new Intent(GameActivity.this, MenuActivity.class);
+            startActivity(intent);
+            finish();
         });
-        builder.setNegativeButton("NO.", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton("NO.", (dialog, which) -> dialog.dismiss());
 
         builder.show();
     }
 
     /**
      * This warning will pop up when the user tries to play enemy cards (or at lest just touch them...)
-     * @param view
      */
     public void cannot_play(View view) {
         Toast.makeText(getApplicationContext(), "Just focus on your cards", Toast.LENGTH_LONG).show();
@@ -266,14 +259,12 @@ public class GameActivity extends AppCompatActivity{
 
     /**
      * Plays a card if is the correct time to do it (otherwise will objurgate the user)
-     * @param view
      */
     public void click_card(View view) {
         if (gameThread.getNextPlayer() == 0){
             clickedId = view.getId();
             Cards clickedCard = cardsHand.get(clickedId);
             if (gameThread.isCardValid(clickedCard)){
-                //System.out.println("Player plays: " + clickedCard.toString());
                 cardsHand.remove(clickedId);
                 view.setVisibility(View.GONE);
                 for (ImageView card:imagesHand) {
@@ -293,7 +284,6 @@ public class GameActivity extends AppCompatActivity{
 
     /**
      * This functions will just notify the user which player played each card on the board
-     * @param view
      */
     public void jugada_arriba(View view) {
         Toast.makeText(getApplicationContext(), "Ally played cards", Toast.LENGTH_LONG).show();
@@ -309,23 +299,17 @@ public class GameActivity extends AppCompatActivity{
     }
 
     /**
-     * We could just remove this, but it still funny, isn't it?
-     * @param view
+     * We could just remove this, but it's still funny, isn't it?
      */
     public void carta_triunfo(View view) {
         Toast.makeText(getApplicationContext(), "Yeah this is the Triunfo", Toast.LENGTH_LONG).show();
     }
-
-    //TODO: remove
-    public void laderboard(View view) {
-        Toast.makeText(getApplicationContext(), "You will be losing until we actually make the game, sorry", Toast.LENGTH_LONG).show();
-    }
-
 }
 
+
 /**
- * TODO
  *
+ * @author VigoCoffeeLovers
  */
 class GameThread extends Thread {
 
@@ -333,13 +317,11 @@ class GameThread extends Thread {
     private int playsUntilEoRound = 3;
     private int roundsUntilEoGame = 9;
     private Cards[] onBoardCards = new Cards[4];
-    private int startingPlayer = 0; //AQUIEEEe
+    private int startingPlayer = 0;
     private int nextPlayer = -1;
     private int allyGames = 0;
     private int enemyGames = 0;
     private Game currentGame;
-
-    private ArrayList<Integer> currentHandCards = new ArrayList<>();
 
     GameThread(GameActivity gameActivity) {
         this.gameActivity = gameActivity;
@@ -359,21 +341,18 @@ class GameThread extends Thread {
         roundsUntilEoGame = 9;
         currentGame = new Game(gameActivity.players);
         currentGame.initialDeal();
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
+        new Handler(Looper.getMainLooper()).post(() -> {
+            gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
 
-                gameActivity.setLeftCardsVisibility(10);
-                gameActivity.setRightCardsVisibility(10);
-                gameActivity.setAllyCardsVisibility(10);
-                ArrayList<Cards> cartasOrdenadas = sortHandCards(currentGame.getPlayers().get(0).getHand(), currentGame.getTable().getTriunfo());
+            gameActivity.setLeftCardsVisibility(10);
+            gameActivity.setRightCardsVisibility(10);
+            gameActivity.setAllyCardsVisibility(10);
+            ArrayList<Cards> cartasOrdenadas = sortHandCards(currentGame.getPlayers().get(0).getHand(), currentGame.getTable().getTriunfo());
 
-                for (int i=0; i <10 ; i++) {
-                    gameActivity.imagesHand[i].setImageResource(cartasOrdenadas.get(i).getImage(gameActivity.DECK));
-                    gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), cartasOrdenadas.get(i));
-                    gameActivity.imagesHand[i].setVisibility(View.VISIBLE);
-                }
+            for (int i=0; i <10 ; i++) {
+                gameActivity.imagesHand[i].setImageResource(cartasOrdenadas.get(i).getImage(gameActivity.DECK));
+                gameActivity.cardsHand.put(gameActivity.imagesHand[i].getId(), cartasOrdenadas.get(i));
+                gameActivity.imagesHand[i].setVisibility(View.VISIBLE);
             }
         });
         nextPlayer = startingPlayer;
@@ -382,7 +361,7 @@ class GameThread extends Thread {
     }
 
     private ArrayList<Cards> sortHandCards(ArrayList<Cards> cartas, Cards triunfo){
-        ArrayList<Cards> cartasOrdenadas = new ArrayList<Cards>(); // Arraylist with the cards sorted left to right by "triunfo" and "palo"
+        ArrayList<Cards> cartasOrdenadas = new ArrayList<>(); // Arraylist with the cards sorted left to right by "triunfo" and "palo"
 
         Collections.sort(cartas, Cards.CardsValueComparator); // Compare the cards in increasing "palo" and decreasing value
 
@@ -411,7 +390,6 @@ class GameThread extends Thread {
      *  Asks the next player to play a card (if the player is a machine it will play it, if it is a human this function will end -see Human.playCard for more info-)
      */
     private void playNextPlayer(Game game) {
-        //System.out.println("Player: " + nextPlayer + " turn");
         game.setCurrentPlayer(game.getPlayers().get(nextPlayer));
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = null;
@@ -419,17 +397,14 @@ class GameThread extends Thread {
             case 0:
                 ArrayList<Cards> playableCards = players.get(nextPlayer).checkPlayableCards();
                 Set<Integer> idRecursoSet = gameActivity.cardsHand.keySet();
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int idRecurso:idRecursoSet) {
-                            ImageView view = gameActivity.findViewById(idRecurso);
-                            if (playableCards.contains(gameActivity.cardsHand.get(idRecurso))){
-                                view.setBackgroundResource(R.drawable.card_avaliable);
-                            } else {
-                                view.getLayoutParams().height = gameActivity.dpToPx(98);
-                                view.getLayoutParams().width = gameActivity.dpToPx(64);
-                            }
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    for (int idRecurso:idRecursoSet) {
+                        ImageView view = gameActivity.findViewById(idRecurso);
+                        if (playableCards.contains(gameActivity.cardsHand.get(idRecurso))){
+                            view.setBackgroundResource(R.drawable.card_avaliable);
+                        } else {
+                            view.getLayoutParams().height = gameActivity.dpToPx(98);
+                            view.getLayoutParams().width = gameActivity.dpToPx(64);
                         }
                     }
                 });
@@ -462,33 +437,24 @@ class GameThread extends Thread {
         int temp_nextPlayer = nextPlayer;
         Cards temp_playedCard = playedCard;
 
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                switch (temp_nextPlayer){
-                    case 1:
-                        gameActivity.setRightCardsVisibility(roundsUntilEoGame);
-                    break;
-                    case 2:
-                        gameActivity.setAllyCardsVisibility(roundsUntilEoGame);
-                    break;
-                    case 3:
-                        gameActivity.setLeftCardsVisibility(roundsUntilEoGame);
-                    break;
-                }
-                gameActivity.imagesBoard[temp_nextPlayer].setImageResource(temp_playedCard.getImage(gameActivity.DECK));
-                gameActivity.imagesBoard[temp_nextPlayer].setVisibility(View.VISIBLE);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            switch (temp_nextPlayer){
+                case 1:
+                    gameActivity.setRightCardsVisibility(roundsUntilEoGame);
+                break;
+                case 2:
+                    gameActivity.setAllyCardsVisibility(roundsUntilEoGame);
+                break;
+                case 3:
+                    gameActivity.setLeftCardsVisibility(roundsUntilEoGame);
+                break;
             }
+            gameActivity.imagesBoard[temp_nextPlayer].setImageResource(temp_playedCard.getImage(gameActivity.DECK));
+            gameActivity.imagesBoard[temp_nextPlayer].setVisibility(View.VISIBLE);
         });
-        /*try {
-            sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        //System.out.println("Player: " + nextPlayer + " played: " + playedCard.getNumber() + " of " + playedCard.getSuit());
+
         onBoardCards[nextPlayer] = playedCard;
         nextPlayer = Utils.nextPlayer(nextPlayer);
-        //System.out.println("Plays until End of Round: " + playsUntilEoRound);
         if((--playsUntilEoRound) < 0) {
             endOfRound(game);
         }else{
@@ -498,22 +464,14 @@ class GameThread extends Thread {
 
     void humanPlayed(Cards playedCard){
 
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                gameActivity.imagesBoard[0].setImageResource(playedCard.getImage(gameActivity.DECK));
-                gameActivity.imagesBoard[0].setVisibility(View.VISIBLE);
-            }
+        new Handler(Looper.getMainLooper()).post(() -> {
+            gameActivity.imagesBoard[0].setImageResource(playedCard.getImage(gameActivity.DECK));
+            gameActivity.imagesBoard[0].setVisibility(View.VISIBLE);
         });
-        /*try {
-            sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+
         onBoardCards[0] = playedCard;
         nextPlayer = Utils.nextPlayer(nextPlayer);
         currentGame.table.addPlayedCard(gameActivity.players.get(0),playedCard); //The user will always be player 0
-        //System.out.println("Plays until End of Round: " + playsUntilEoRound);
         if((--playsUntilEoRound) < 0) {
             endOfRound(currentGame);
         }else{
@@ -523,8 +481,6 @@ class GameThread extends Thread {
 
     boolean isCardValid(Cards card){
         ArrayList<Cards> playableCards = currentGame.getPlayers().get(0).checkPlayableCards();
-        System.out.println("TABLE --> \t"+currentGame.table.getPlayedCards());
-        System.out.println("JUGABLES --> \t"+playableCards);
         return playableCards.contains(card);
     }
 
@@ -539,10 +495,7 @@ class GameThread extends Thread {
         int winnerId = - 1;
         ArrayList<Cards> list_onBoardCards = new ArrayList<>(Arrays.asList(onBoardCards));
 
-        System.err.println("Next player: " + nextPlayer);
-        System.err.println("    " + list_onBoardCards.toString());
         Collections.rotate(list_onBoardCards, 4 - nextPlayer);
-        System.err.println("    "+ list_onBoardCards);
         Cards wonCard = game.checkWonCard(list_onBoardCards);
         for (int i = 0; i < 4; i++) {
             if(onBoardCards[i] == wonCard){
@@ -550,7 +503,6 @@ class GameThread extends Thread {
                 break;
             }
         }
-        System.out.println("The winner of the round is player: " + winnerId);
         int winnerTeam = game.getTeam(game.getPlayers().get(winnerId));
         ArrayList<Player> winnerTeamList = game.getTeam(winnerTeam);
         int extraPoints = 0;
@@ -566,22 +518,12 @@ class GameThread extends Thread {
 
 
             final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb + " has singed 40s!!!!");
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show());
 
         }else if(sing1!= null){
             extraPoints+=20;
             final String msg = ("Player: " + winnerTeamList.get(0).getName()+ " "+ verb +" singed 20s on " + sing1.name() + "!!!!");
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show());
         }
         if( winnerTeamList.get(0).getName().equals("You")){
             verb=("have");
@@ -591,21 +533,11 @@ class GameThread extends Thread {
         if(sing2 == (currentGame.getTable().getTriunfo().getSuit())){
             extraPoints+=40;
             final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 40s!!!!");
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show());
         }else if(sing2!= null){
             extraPoints+=20;
             final String msg = ("Player: " + winnerTeamList.get(1).getName()+ " "+ verb +" singed 20s on " + sing2.name()+ "!!!!");
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show());
         }
 
 
@@ -622,20 +554,10 @@ class GameThread extends Thread {
 
             if (winnerTeam==1){
                 final String msg = ("Your team have won the 10 final points!!!!");
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                    }
-                });
+                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show());
             }else{
                 final String msg = ("Enemy has won the 10 final points!!!!");
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                    }
-                });
+                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(gameActivity.getApplicationContext(), msg, Toast.LENGTH_LONG).show());
             }
 
             updateLeaderBoard();
@@ -646,7 +568,7 @@ class GameThread extends Thread {
                 e.printStackTrace();
             }
 
-            endOfGame(game, winnerTeam);
+            endOfGame(winnerTeam);
         } else {
             nextPlayer = winnerId;
             game.addRound();
@@ -667,22 +589,14 @@ class GameThread extends Thread {
     }
 
     private void setBoardInvisible() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                /*try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
-                for (ImageView image:gameActivity.imagesBoard) {
-                    image.setVisibility(View.INVISIBLE);
-                }
+        new Handler(Looper.getMainLooper()).post(() -> {
+            for (ImageView image:gameActivity.imagesBoard) {
+                image.setVisibility(View.INVISIBLE);
             }
         });
     }
 
-    private void endOfGame(Game game, int last10pointsTeam) {
+    private void endOfGame(int last10pointsTeam) {
         if (currentGame.getPoints(1) > currentGame.getPoints(2)){
             allyGames++;
             if (currentGame.getPoints(1) > 100){
@@ -729,51 +643,27 @@ class GameThread extends Thread {
             builder.setMessage("Better luck next time..\nDo you want another?");
         }
         builder.setCancelable(false);
-        builder.setPositiveButton("Oh yeah", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                gameActivity.finish();
-                gameActivity.startActivity(gameActivity.getIntent());
-            }
+        builder.setPositiveButton("Oh yeah", (dialog, which) -> {
+            gameActivity.finish();
+            gameActivity.startActivity(gameActivity.getIntent());
         });
-        builder.setNegativeButton("Enough", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(gameActivity, MenuActivity.class);
-                gameActivity.startActivity(intent);
-            }
+        builder.setNegativeButton("Enough", (dialog, which) -> {
+            Intent intent = new Intent(gameActivity, MenuActivity.class);
+            gameActivity.startActivity(intent);
         });
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                builder.show();
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(builder::show);
     }
 
-    public int getNextPlayer() {
+    int getNextPlayer() {
         return nextPlayer;
-    }
-
-    public void updatePlayerCards(int playedId) {
-        if(currentHandCards.indexOf(Collections.min(currentHandCards)) == playedId){
-            for (int i = playedId; i <10; i++){
-                if (gameActivity.imagesHand[i].getVisibility() == View.VISIBLE){
-                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) gameActivity.imagesHand[i].getLayoutParams();
-                    lp.setMargins(0,0,0,0);
-                    gameActivity.imagesHand[i].setLayoutParams(lp);
-                    return;
-                }
-            }
-        }
     }
 }
 
 class HumanPlay extends Thread {
 
 
-    GameThread gameThread;
-    Cards playedCard;
+    private GameThread gameThread;
+    private Cards playedCard;
 
     HumanPlay(GameThread gameThread, Cards card){
         this.gameThread = gameThread;

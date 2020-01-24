@@ -1,21 +1,25 @@
-package com.example.mynewapplication.montecarlo;
+package vigocoffeelovers.tute.montecarlo;
 
-import com.example.mynewapplication.game.Cards;
-import com.example.mynewapplication.game.Game;
-import com.example.mynewapplication.game.Player;
+import vigocoffeelovers.tute.game.Cards;
+import vigocoffeelovers.tute.game.Game;
+import vigocoffeelovers.tute.game.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class MonteCarloTreeSearch {
 
     private static final int WIN_SCORE = 10;
 
     /**
      *
-     * @param game
+     * @param game the game
      * @param timeToThink on miliseconds
      */
     public Cards findNextPlay(Game game, int timeToThink) {
@@ -29,19 +33,11 @@ public class MonteCarloTreeSearch {
         if (rootNode.childArray.isEmpty())
             expandNode(rootNode);
 
-        int count = 0;
-
-        System.out.println();
-        System.out.println();
-
         do {
-            count++;
             Node nodeToExplore = rootNode.getRandomChildNode();
-            Boolean hasWon = simulateRandomGame(nodeToExplore); //Simulamos la jugada completa(de momento solo una "vuelta")
+            boolean hasWon = simulateRandomGame(nodeToExplore);
             backPropogation(nodeToExplore, hasWon);
         } while (System.currentTimeMillis() < end);
-
-        System.out.println("[COUNT] --> " + count);
 
         String currentPlayerName = game.getCurrentPlayer().getName();
         Node winnerNode = UCT.findBestNodeWithUCT(rootNode);
@@ -49,18 +45,8 @@ public class MonteCarloTreeSearch {
         Cards winnerCard = null;
         Map<Player,Cards> playedCardsInWinnerNode = winnerNode.getState().getGame().getTable().getPlayedCards();
         for (Map.Entry<Player,Cards> e : playedCardsInWinnerNode.entrySet())
-            if(e.getKey().getName().equals(currentPlayerName)) //Usar el nombre ya que el Player del nodo es una copia del real
+            if(e.getKey().getName().equals(currentPlayerName))
                 winnerCard = e.getValue();
-
-
-        rootNode.getChildArray().forEach(n -> {
-            Map<Player, Cards> playedCardsInNewNode = n.getState().getGame().getTable().getPlayedCards();
-            Cards child = null;
-            for (Map.Entry<Player,Cards> e : playedCardsInNewNode.entrySet())
-                if(e.getKey().getName().equals(currentPlayerName))
-                     child = e.getValue();
-            //System.err.println(child + " - " + n.getState().getVisitCount() + " - " + n.getState().getWinScore());
-        });
 
         return winnerCard;
 
@@ -76,10 +62,9 @@ public class MonteCarloTreeSearch {
     }
 
     private void backPropogation(Node nodeToExplore, boolean hasWon) {
-        Node tempNode = nodeToExplore;
-        tempNode.getState().incrementVisit();
+        nodeToExplore.getState().incrementVisit();
         if (hasWon) //He ganado, entonces recompenso jugar esta carta
-            tempNode.getState().addScore(WIN_SCORE);
+            nodeToExplore.getState().addScore(WIN_SCORE);
     }
 
     private boolean simulateRandomGame(Node nodeToExplore) {
@@ -114,11 +99,7 @@ public class MonteCarloTreeSearch {
             copyGame.table.removeCurrentPlay();
         }
 
-        if (copyGame.getPoints(my_team) > copyGame.getPoints(my_team==1 ? 2 : 1)) {
-            return true;
-        } else {
-            return false;
-        }
+        return copyGame.getPoints(my_team) > copyGame.getPoints(my_team == 1 ? 2 : 1);
 
     }
 

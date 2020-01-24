@@ -1,4 +1,4 @@
-package com.example.mynewapplication.game;
+package vigocoffeelovers.tute.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,15 +10,7 @@ import java.util.Map;
  */
 public class Game {
     
-    public static final String ANSI_RESET = "\033[0m";
-    public static final String ANSI_BLUE = "\033[0;34m";
-    public static final String ANSI_RED = "\033[0;31m";
-    
     private static final int INIT_HAND_CARDS = 10;
-    private static final int TOTAL_PLAYS_NUMBER = INIT_HAND_CARDS;
-    //private static final int INIT_SHUFFLE_PERMUTATIONS = 100; //TODO?
-    
-    private int FINISH_ROUND = 0;
 
     private int round = 0;
     private Player currentPlayer;
@@ -49,8 +41,8 @@ public class Game {
         this.players = new ArrayList<>();
         for (Player p : game.getPlayers()) {
             Player newPlayer = new Player(p.getName());
-            p.getHand().forEach(c -> newPlayer.receiveCard(c));
-            p.sings.forEach(s -> newPlayer.sings.add(s));
+            p.getHand().forEach(newPlayer::receiveCard);
+            newPlayer.sings.addAll(p.sings);
             newPlayer.joinGame(this);
             this.players.add(newPlayer);
         }
@@ -92,16 +84,6 @@ public class Game {
             if (newPlayer.getName().equals(game.getCurrentPlayer().getName()))
                 this.currentPlayer = newPlayer;
     }
-    
-    private void finishRound(int team) {
-        if (team != 0) 
-            System.out.println(ANSI_RED + " ####### CONGRATULATIONS, the team " + team + " has won this round ###### " + ANSI_RESET);
-        else
-            System.out.println(ANSI_RED + " ####### DRAW in this round ###### " + ANSI_RESET);
-        FINISH_ROUND = 1;
-    }
-    
-    
     
     public Map.Entry<Player, Cards> checkWonPlay() {
         Player jugadorGanador = null;
@@ -166,29 +148,14 @@ public class Game {
     
     
     
-    private Cards dealCard(Player player, boolean Triunfo) {
+    private void dealCard(Player player, boolean Triunfo) {
         Cards dealingCard = table.getDeck().get(0);
         player.receiveCard(dealingCard);
         if (Triunfo) {
             table.setTriunfo(dealingCard);
         }
         table.getDeck().remove(0);
-        return dealingCard;
     }
-    
-    
-    /* CLI function
-    private Cards askForCard(Player player) {
-        return player.playCard();
-    }
-    */
-    
-    /*
-    private ArrayList<Cards> askForSing(Player player) {
-        return player.sing();
-    }
-    */
-    
     
     public void addPoints(int team, int points) {
         if (team == 1)
@@ -204,13 +171,6 @@ public class Game {
             return pointsTeam2; 
         else
             return 0;
-    }
-    
-    public void setPoints(int team, int points) {
-        if (team == 1)
-            pointsTeam1 = points;
-        else if (team == 2)
-            pointsTeam2 = points;
     }
     
     public int getTeam(Player p) {
@@ -244,7 +204,6 @@ public class Game {
     }
 
     public void setCurrentPlayer(Player player) {
-        System.err.println("CURRENT PLAYER = " + player);
         this.currentPlayer = player;
     }
 
@@ -255,102 +214,5 @@ public class Game {
     public void addRound() {
         round++;
     }
-    /*
-    public void startGameCLI() {
 
-        initialDeal();
-
-        System.out.println("The TRIUNFO is [" + table.getTriunfo() + "]");
-        System.out.println();
-
-        for (int i = 1; i <= TOTAL_PLAYS_NUMBER || FINISH_ROUND == 1; i++) {
-
-            System.out.println("#######################################################################");
-            System.out.println("########################## PLAY " + i + " ####################################" + ((i < 10) ? "#" : ""));
-            System.out.println("#######################################################################");
-
-            
-            System.out.println("HANDS IN THE " + i + "º PLAY:");
-            
-            players.forEach((p) -> {System.out.println(((p instanceof Human) ? ANSI_BLUE : "") + p + "\t - \t" + p.getHand() + ((p instanceof Human) ? ANSI_RESET : ""));});
-            
-            System.out.println();
-
-            
-            System.out.println("TRICK FOR THE " + i + "º PLAY:");
-            
-            players.forEach((p) -> {
-                System.out.print(((p instanceof Human) ? ANSI_BLUE : "") + p + "\t - \t");
-                table.getPlayedCards().put(p, askForCard(p));
-                System.out.print((p instanceof Human) ? ANSI_RESET : table.getPlayedCards().get(p) + "\n");
-            });
-            
-            System.out.println();
-
-            
-            Map.Entry<Player, Cards> wonPlay = checkWonPlay();
-
-            System.out.println("The player " + wonPlay.getKey() + " has won the play with the card [" + wonPlay.getValue() + "]");
-            System.out.println();
-            
-            addPoints(getTeam(wonPlay.getKey()), Cards.calculatePoints(new ArrayList<>(table.getPlayedCards().values())));
-
-            //table.addTrick(wonPlay.getKey());
-
-            
-            System.out.println(" -> Asking the player " + wonPlay.getKey() + " for a sing");
-
-            ArrayList<Cards> sing = askForSing(wonPlay.getKey());
-
-            if (!sing.isEmpty()) {
-                if (sing.size() == 4) {
-                    System.out.println("The player " + wonPlay.getKey() + " has sung TUTE with the cards " + sing);
-                    finishRound(getTeam(wonPlay.getKey()));
-                } else if (sing.get(0).getSuit().equals(table.getTriunfo().getSuit())) {
-                    System.out.println("The player " + wonPlay.getKey() + " has sung the 40s with the cards " + sing);
-                    addPoints(getTeam(wonPlay.getKey()), 40);
-                } else {
-                    System.out.println("The player " + wonPlay.getKey() + " has sung the 20s with the cards " + sing);
-                    addPoints(getTeam(wonPlay.getKey()), 20);
-                }
-            }
-            System.out.println();
-
-            
-            System.out.println("CURRENT POINTS IN THE " + i + "º PLAY:");
-            System.out.println( "Team 1 " + Team1 + "\t - \t" + pointsTeam1);
-            System.out.println( "Team 2 " + Team2 + "\t - \t" + pointsTeam2);
-            System.out.println("");
-            
-            Utils.rotatePlayerArray(players, wonPlay.getKey()); //put the won player as the first one to start the next play
-            table.removeCurrentPlay();
-            
-        }
-
-        if (pointsTeam1 > pointsTeam2)
-            finishRound(1);
-        else if (pointsTeam1 < pointsTeam2)
-            finishRound(2);
-        else
-            finishRound(0);
-
-    }*/
-
-
-    
-    
-    public static void main(String[] args) {
-
-        ArrayList<Player> players = new ArrayList<>(Arrays.asList(
-                new Human("Sergio"),
-                new Player("Marcos"),
-                new Player("Roi"),
-                new Player("Pablo")
-        ));
-
-        Game game = new Game(players);
-        
-        //game.startGameCLI();
-
-    }
 }

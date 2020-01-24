@@ -1,4 +1,4 @@
-package com.example.mynewapplication;
+package vigocoffeelovers.tute;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class AboutActivity extends AppCompatActivity {
 
     @Override

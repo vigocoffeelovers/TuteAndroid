@@ -1,4 +1,4 @@
-package com.example.mynewapplication.game;
+package vigocoffeelovers.tute.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,16 +14,13 @@ public class Table {
 
     private ArrayList<Cards> totalPlayedCards;
 
-    //private LinkedHashMap<Player, ArrayList<ArrayList<Cards>>> tricks;//No se esta utilizando de momento, se añaden los tricks pero no se usa
     private ArrayList<Cards> deck;
     private Cards Triunfo;
     private LinkedHashMap<Player, Cards> currentPlay;
 
-    public Table() {
+    Table() {
         this.currentPlay = new LinkedHashMap<>();
         this.totalPlayedCards = new ArrayList<>();
-        //this.tricks = new LinkedHashMap<>();
-        //players.forEach((Player p) -> tricks.put(p, new ArrayList<>()));
         deck = new ArrayList<>(Arrays.asList(Cards.values())); //Creates the deck
         shuffleDeck();
     }
@@ -33,7 +30,7 @@ public class Table {
     }
     
     
-    public void setTriunfo(Cards triunfo) {
+    void setTriunfo(Cards triunfo) {
         this.Triunfo = triunfo;
     }
     
@@ -56,13 +53,9 @@ public class Table {
     public void removeCurrentPlay() {
         currentPlay.clear();
     }
+
     
-//    public void addTrick(Player p) {
-//        tricks.get(p).add(new ArrayList(currentPlay.values()));
-//        removeCurrentPlay();
-//    }
-    
-    public ArrayList<Cards> getDeck() {
+    ArrayList<Cards> getDeck() {
         return deck;
     }
 
