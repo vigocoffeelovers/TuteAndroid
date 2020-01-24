@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity{
     //For now static constants, in future will be suitables on the setting smenu
     public final static int DECK = 0;
 
-    static int gamesToWin = 1;
+    int gamesToWin = 1;
     int allyThinkingTime = 750;
     int enemiesThinkingTime = 750;
 
@@ -701,7 +701,7 @@ class GameThread extends Thread {
 
         updateLeaderBoard();
 
-        if (allyGames >= GameActivity.gamesToWin || enemyGames >= gameActivity.gamesToWin){
+        if ((allyGames >= gameActivity.gamesToWin) || (enemyGames >= gameActivity.gamesToWin)){
             if (allyGames > enemyGames){
                 showEndDialog(1);
             } else{
@@ -720,7 +720,7 @@ class GameThread extends Thread {
         } else {
             builder.setMessage("Better luck next time..\nDo you want another?");
         }
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         builder.setPositiveButton("Oh yeah", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
