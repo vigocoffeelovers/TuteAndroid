@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -34,6 +35,7 @@ public class GameActivity extends AppCompatActivity{
     int gamesToWin = 1;
     int allyThinkingTime = 750;
     int enemiesThinkingTime = 750;
+    boolean firstPlayerRandom = false;
 
 
     //Used to obtain the id of a clicked View (the card clicked)
@@ -179,6 +181,8 @@ public class GameActivity extends AppCompatActivity{
                 break;
         }
 
+        firstPlayerRandom = Model.instance().isFirstPlayerRandom();
+
         System.out.println("Ajustes: \n Ally: " + allyThinkingTime + "\n Enemies: " + enemiesThinkingTime);
 
         gameThread = new GameThread(this);
@@ -265,7 +269,7 @@ public class GameActivity extends AppCompatActivity{
      * @param view
      */
     public void click_card(View view) {
-        if (gameThread.getNextplayer() == 0){
+        if (gameThread.getNextPlayer() == 0){
             clickedId = view.getId();
             Cards clickedCard = cardsHand.get(clickedId);
             if (gameThread.isCardValid(clickedCard)){
@@ -329,8 +333,8 @@ class GameThread extends Thread {
     private int playsUntilEoRound = 3;
     private int roundsUntilEoGame = 9;
     private Cards[] onBoardCards = new Cards[4];
-    private int startingPlayer = 0;
-    private int nextplayer = -1;
+    private int startingPlayer = 0; //AQUIEEEe
+    private int nextPlayer = -1;
     private int allyGames = 0;
     private int enemyGames = 0;
     private Game currentGame;
@@ -343,6 +347,10 @@ class GameThread extends Thread {
 
     @Override
     public void run() {
+
+        if (gameActivity.firstPlayerRandom){
+            startingPlayer = new Random().nextInt(4);
+        }
         newGame();
     }
 
@@ -368,7 +376,7 @@ class GameThread extends Thread {
                 }
             }
         });
-        nextplayer = startingPlayer;
+        nextPlayer = startingPlayer;
         startingPlayer = Utils.nextPlayer(startingPlayer);
         newRound(currentGame);
     }
@@ -403,13 +411,13 @@ class GameThread extends Thread {
      *  Asks the next player to play a card (if the player is a machine it will play it, if it is a human this function will end -see Human.playCard for more info-)
      */
     private void playNextPlayer(Game game) {
-        //System.out.println("Player: " + nextplayer + " turn");
-        game.setCurrentPlayer(game.getPlayers().get(nextplayer));
+        //System.out.println("Player: " + nextPlayer + " turn");
+        game.setCurrentPlayer(game.getPlayers().get(nextPlayer));
         ArrayList<Player> players = game.getPlayers();
         Cards playedCard = null;
-        switch (nextplayer){
+        switch (nextPlayer){
             case 0:
-                ArrayList<Cards> playableCards = players.get(nextplayer).checkPlayableCards();
+                ArrayList<Cards> playableCards = players.get(nextPlayer).checkPlayableCards();
                 Set<Integer> idRecursoSet = gameActivity.cardsHand.keySet();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -436,7 +444,7 @@ class GameThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-                playedCard = players.get(nextplayer).playCard(gameActivity.enemiesThinkingTime);
+                playedCard = players.get(nextPlayer).playCard(gameActivity.enemiesThinkingTime);
                 break;
             case 2:
                 // This will prevent too fast animations when time to think is low
@@ -447,11 +455,11 @@ class GameThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-                playedCard = players.get(nextplayer).playCard(gameActivity.allyThinkingTime);
+                playedCard = players.get(nextPlayer).playCard(gameActivity.allyThinkingTime);
                 break;
         }
-        currentGame.table.addPlayedCard(gameActivity.players.get(nextplayer),playedCard);
-        int temp_nextPlayer = nextplayer;
+        currentGame.table.addPlayedCard(gameActivity.players.get(nextPlayer),playedCard);
+        int temp_nextPlayer = nextPlayer;
         Cards temp_playedCard = playedCard;
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -477,9 +485,9 @@ class GameThread extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        //System.out.println("Player: " + nextplayer + " played: " + playedCard.getNumber() + " of " + playedCard.getSuit());
-        onBoardCards[nextplayer] = playedCard;
-        nextplayer = Utils.nextPlayer(nextplayer);
+        //System.out.println("Player: " + nextPlayer + " played: " + playedCard.getNumber() + " of " + playedCard.getSuit());
+        onBoardCards[nextPlayer] = playedCard;
+        nextPlayer = Utils.nextPlayer(nextPlayer);
         //System.out.println("Plays until End of Round: " + playsUntilEoRound);
         if((--playsUntilEoRound) < 0) {
             endOfRound(game);
@@ -503,7 +511,7 @@ class GameThread extends Thread {
             e.printStackTrace();
         }*/
         onBoardCards[0] = playedCard;
-        nextplayer = Utils.nextPlayer(nextplayer);
+        nextPlayer = Utils.nextPlayer(nextPlayer);
         currentGame.table.addPlayedCard(gameActivity.players.get(0),playedCard); //The user will always be player 0
         //System.out.println("Plays until End of Round: " + playsUntilEoRound);
         if((--playsUntilEoRound) < 0) {
@@ -531,9 +539,9 @@ class GameThread extends Thread {
         int winnerId = - 1;
         ArrayList<Cards> list_onBoardCards = new ArrayList<>(Arrays.asList(onBoardCards));
 
-        System.err.println("Next player: " + nextplayer);
+        System.err.println("Next player: " + nextPlayer);
         System.err.println("    " + list_onBoardCards.toString());
-        Collections.rotate(list_onBoardCards, 4 - nextplayer);
+        Collections.rotate(list_onBoardCards, 4 - nextPlayer);
         System.err.println("    "+ list_onBoardCards);
         Cards wonCard = game.checkWonCard(list_onBoardCards);
         for (int i = 0; i < 4; i++) {
@@ -640,7 +648,7 @@ class GameThread extends Thread {
 
             endOfGame(game, winnerTeam);
         } else {
-            nextplayer = winnerId;
+            nextPlayer = winnerId;
             game.addRound();
             newRound(game);
         }
@@ -743,8 +751,8 @@ class GameThread extends Thread {
         });
     }
 
-    public int getNextplayer() {
-        return nextplayer;
+    public int getNextPlayer() {
+        return nextPlayer;
     }
 
     public void updatePlayerCards(int playedId) {
