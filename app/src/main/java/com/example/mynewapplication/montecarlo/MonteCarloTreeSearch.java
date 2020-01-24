@@ -44,7 +44,7 @@ public class MonteCarloTreeSearch {
         System.out.println("[COUNT] --> " + count);
 
         String currentPlayerName = game.getCurrentPlayer().getName();
-        Node winnerNode = rootNode.getChildWithMaxScore();
+        Node winnerNode = UCT.findBestNodeWithUCT(rootNode);
         tree.setRoot(winnerNode);
         Cards winnerCard = null;
         Map<Player,Cards> playedCardsInWinnerNode = winnerNode.getState().getGame().getTable().getPlayedCards();
