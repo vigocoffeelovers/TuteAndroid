@@ -325,19 +325,19 @@ public class GameActivity extends AppCompatActivity{
  */
 class GameThread extends Thread {
 
-    GameActivity gameActivity;
-    int playsUntilEoRound = 3;
-    int roundsUntilEoGame = 9;
-    Cards[] onBoardCards = new Cards[4];
-    int startingPlayer = 0;
-    int nextplayer = -1;
-    int allyGames = 0;
-    int enemyGames = 0;
-    public Game currentGame;
+    private GameActivity gameActivity;
+    private int playsUntilEoRound = 3;
+    private int roundsUntilEoGame = 9;
+    private Cards[] onBoardCards = new Cards[4];
+    private int startingPlayer = 0;
+    private int nextplayer = -1;
+    private int allyGames = 0;
+    private int enemyGames = 0;
+    private Game currentGame;
 
-    ArrayList<Integer> currentHandCards = new ArrayList<>();
+    private ArrayList<Integer> currentHandCards = new ArrayList<>();
 
-    public GameThread(GameActivity gameActivity) {
+    GameThread(GameActivity gameActivity) {
         this.gameActivity = gameActivity;
     }
 
@@ -346,10 +346,8 @@ class GameThread extends Thread {
         newGame();
     }
 
-    /**
-     * TODO: función de repartir
-     */
-    public void newGame(){
+
+    private void newGame(){
         roundsUntilEoGame = 9;
         currentGame = new Game(gameActivity.players);
         currentGame.initialDeal();
@@ -375,7 +373,7 @@ class GameThread extends Thread {
         newRound(currentGame);
     }
 
-    public ArrayList<Cards> sortHandCards(ArrayList<Cards> cartas, Cards triunfo){
+    private ArrayList<Cards> sortHandCards(ArrayList<Cards> cartas, Cards triunfo){
         ArrayList<Cards> cartasOrdenadas = new ArrayList<Cards>(); // Arraylist with the cards sorted left to right by "triunfo" and "palo"
 
         Collections.sort(cartas, Cards.CardsValueComparator); // Compare the cards in increasing "palo" and decreasing value
@@ -395,7 +393,7 @@ class GameThread extends Thread {
         return cartasOrdenadas;
     }
 
-    public void newRound(Game game){
+    private void newRound(Game game){
             playsUntilEoRound = 3;
             currentGame.table.removeCurrentPlay();
             playNextPlayer(game);
@@ -404,7 +402,7 @@ class GameThread extends Thread {
     /**
      *  Asks the next player to play a card (if the player is a machine it will play it, if it is a human this function will end -see Human.playCard for more info-)
      */
-    public void playNextPlayer(Game game) {
+    private void playNextPlayer(Game game) {
         //System.out.println("Player: " + nextplayer + " turn");
         game.setCurrentPlayer(game.getPlayers().get(nextplayer));
         ArrayList<Player> players = game.getPlayers();
@@ -679,13 +677,25 @@ class GameThread extends Thread {
     private void endOfGame(Game game, int last10pointsTeam) {
         if (currentGame.getPoints(1) > currentGame.getPoints(2)){
             allyGames++;
+            if (currentGame.getPoints(1) > 100){
+                allyGames++;
+            }
         } else if (currentGame.getPoints(1) < currentGame.getPoints(2)){
             enemyGames++;
+            if (currentGame.getPoints(2) > 100){
+                enemyGames++;
+            }
         } else {
             if(last10pointsTeam==1){
                 allyGames++;
+                if (currentGame.getPoints(1) > 100){
+                    allyGames++;
+                }
             } else {
                 enemyGames++;
+                if (currentGame.getPoints(2) > 100){
+                    enemyGames++;
+                }
             }
         }
 
