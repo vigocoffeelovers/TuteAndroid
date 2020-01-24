@@ -1,6 +1,6 @@
-package com.example.mynewapplication.montecarlo;
+package vigocoffeelovers.tute.montecarlo;
 
-import com.example.mynewapplication.game.Game;
+import vigocoffeelovers.tute.game.Game;
 
 public class Tree {
 

@@ -1,11 +1,15 @@
-package com.example.mynewapplication.montecarlo;
+package vigocoffeelovers.tute.montecarlo;
 
 import java.util.Collections;
 import java.util.Comparator;
 
-public class UCT {
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
+class UCT {
 
-    public static double uctValue(int totalVisit, double nodeWinScore, int nodeVisit) {
+    private static double uctValue(int totalVisit, double nodeWinScore, int nodeVisit) {
         if (nodeVisit == 0) {
             return Integer.MAX_VALUE;
         }

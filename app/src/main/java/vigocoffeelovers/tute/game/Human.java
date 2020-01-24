@@ -1,18 +1,13 @@
-package com.example.mynewapplication.game;
+package vigocoffeelovers.tute.game;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class Human extends Player {
 
     public Human(String name) {
         super(name);
-    }
-
-    public Human(String name, Game game) {
-        super(name, game);
     }
 
     /**

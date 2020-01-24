@@ -1,28 +1,32 @@
-package com.example.mynewapplication.montecarlo;
+package vigocoffeelovers.tute.montecarlo;
 
-import com.example.mynewapplication.game.Game;
+import vigocoffeelovers.tute.game.Game;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class Node {
 
-    State state;
-    Node parent;
+    private State state;
+    private Node parent;
     ArrayList<Node> childArray;
 
-    public Node(Game game) {
+    Node(Game game) {
         this.state = new State(game);
         childArray = new ArrayList<>();
     }
 
-    public Node(State state) {
+    Node(State state) {
         this.state = state;
         childArray = new ArrayList<>();
     }
 
-    public Node(Node node) {
+    private Node(Node node) {
         this.childArray = new ArrayList<>();
         this.state = new State(node.getState());
         if (node.getParent() != null)
@@ -33,39 +37,23 @@ public class Node {
         }
     }
 
-    public State getState() {
+    State getState() {
         return state;
     }
 
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public Node getParent() {
+    private Node getParent() {
         return parent;
     }
 
-    public void setParent(Node parent) {
+    void setParent(Node parent) {
         this.parent = parent;
     }
 
-    public ArrayList<Node> getChildArray() {
+    ArrayList<Node> getChildArray() {
         return childArray;
     }
 
-    public void setChildArray(ArrayList<Node> childArray) {
-        this.childArray = childArray;
-    }
-
-    public Node getRandomChildNode() {
+    Node getRandomChildNode() {
         return this.childArray.get((int)(Math.random()*this.childArray.size()));
     }
-
-    public Node getChildWithMaxScore() {
-        return Collections.max(
-            this.childArray,
-            Comparator.comparing(c -> { return c.getState().getWinScore(); }) //TODO Score or VisitCount ?¿?
-        );
-    }
-
 }

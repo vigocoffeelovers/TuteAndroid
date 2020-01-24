@@ -1,20 +1,20 @@
-package com.example.mynewapplication.game;
+package vigocoffeelovers.tute.game;
 
-import com.example.mynewapplication.montecarlo.MonteCarloTreeSearch;
+import vigocoffeelovers.tute.montecarlo.MonteCarloTreeSearch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * This class creates a Tute player.
+ *
  * @author VigoCoffeeLovers
  */
 public class Player {
     
     protected String name;
-    protected ArrayList<Cards> hand;
-    protected ArrayList<Suits> sings;
+    private ArrayList<Cards> hand;
+    ArrayList<Suits> sings;
     protected Game game;
     
     
@@ -54,10 +54,7 @@ public class Player {
      * @return the chosen card to play
      */
     public Cards playCard(int timeToThink) {
-        ArrayList<Cards> playableCards = checkPlayableCards();
-        //Cards chosen_card = playableCards.get((int)(Math.random()*playableCards.size())); //TODO Now is being choosing a random card
-        Cards chosen_card = new MonteCarloTreeSearch().findNextPlay(game, timeToThink);
-        return chosen_card;
+        return new MonteCarloTreeSearch().findNextPlay(game, timeToThink);
     }
     
     
@@ -78,7 +75,7 @@ public class Player {
         if (singCards.isEmpty())
             return null;
         
-        /*for (ArrayList<Cards> s : singCards) { //TUTE
+        /*for (ArrayList<Cards> s : singCards) { //ToImplement: Tute
             if (s.size()==4)
                 return s;
         }*/
@@ -90,7 +87,7 @@ public class Player {
             }
         }
         
-        this.sings.add(singCards.get(0).get(0).getSuit()); //20s (da igual cual, pilla el primer palo que le llega)
+        this.sings.add(singCards.get(0).get(0).getSuit());
         return singCards.get(0).get(0).getSuit();
         
     }
@@ -103,7 +100,7 @@ public class Player {
      * @return List of cards which can be singed
      */
 
-    protected ArrayList< ArrayList<Cards> > checkSingableCards () {
+    private ArrayList< ArrayList<Cards> > checkSingableCards() {
         
         ArrayList< ArrayList<Cards> > cardsToSing = new ArrayList<>();
         ArrayList<Cards> horses = new ArrayList<>(); //Antes de nada, filtro las cartas de la
@@ -114,13 +111,13 @@ public class Player {
             else if (d.getNumber().equals(Numbers.KING)) kings.add(d);
         }
         
-        /*if (kings.size()==4) {
+        /*if (kings.size()==4) { //ToImplement: Tute
             cardsToSing.add( kings );
             sings.addAll( Arrays.asList(Suits.values()) );
             return cardsToSing;
         }*/
         
-        /*if (horses.size()==4) {
+        /*if (horses.size()==4) { ////ToImplement: Tute
             cardsToSing.add( horses );
             sings.addAll(Arrays.asList(Suits.values()));
             return cardsToSing;
@@ -158,7 +155,6 @@ public class Player {
         Cards Triunfo                   = game.table.getTriunfo();
         
         ArrayList<Cards> CartasParaAsistirAlPrimerJugador   = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit())                                                                ).collect(Collectors.toCollection(ArrayList::new));
-        //ArrayList<Cards> CartasParaSubirAlPrimerJugador     = hand.stream().filter( c -> c.getSuit().equals(firstCard.getSuit()) && c.getNumber().compareTo(firstCard.getNumber()) > 0         ).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Cards> CartasParaSubirALaMejorCarta       = hand.stream().filter( c -> c.getSuit().equals(winCard.getSuit())   && c.getNumber().compareTo(winCard.getNumber())   > 0         ).collect(Collectors.toCollection(ArrayList::new)   );
         ArrayList<Cards> CartasTriunfos                     = hand.stream().filter( c -> c.getSuit().equals(Triunfo.getSuit())                                                                  ).collect(Collectors.toCollection(ArrayList::new)   );
 
@@ -215,7 +211,7 @@ public class Player {
     
     
     
-    public void joinGame(Game game) {
+    void joinGame(Game game) {
         this.game = game;
     }
     
@@ -228,7 +224,7 @@ public class Player {
         return name.toUpperCase();
     }
 
-    public void removeCard(Cards c) {
+    void removeCard(Cards c) {
         hand.remove(c);
     }
 

@@ -1,7 +1,6 @@
-package com.example.mynewapplication;
+package vigocoffeelovers.tute;
 
 import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +12,10 @@ import android.widget.RadioGroup;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ *
+ * @author VigoCoffeeLovers
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     RadioGroup levelMate;

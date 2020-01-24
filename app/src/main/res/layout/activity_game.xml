@@ -10,7 +10,7 @@
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
     android:background="@drawable/wood_background"
-    tools:context=".GameActivity">
+    tools:context="vigocoffeelovers.tute.GameActivity">
 
     <LinearLayout
         android:id="@+id/mano_izq"
@@ -379,7 +379,6 @@
         android:layout_toLeftOf="@id/mano_arriba"
         android:layout_toRightOf="@id/triunfo"
         android:layout_above="@id/table"
-        android:onClick="laderboard"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:background="@drawable/scoreboard_backgorund"
