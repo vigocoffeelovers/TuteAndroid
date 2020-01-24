@@ -341,6 +341,7 @@ class GameThread extends Thread {
         roundsUntilEoGame = 9;
         currentGame = new Game(gameActivity.players);
         currentGame.initialDeal();
+        updateLeaderBoard();
         new Handler(Looper.getMainLooper()).post(() -> {
             gameActivity.triunfoView.setImageResource(currentGame.getTable().getTriunfo().getImage(gameActivity.DECK));
 
@@ -620,6 +621,7 @@ class GameThread extends Thread {
                 }
             }
         }
+
 
         updateLeaderBoard();
 
