@@ -32,8 +32,8 @@ public class GameActivity extends AppCompatActivity{
     public final static int DECK = 0;
 
     static int gamesToWin = 1;
-    static int allyThinkingTime = 750;
-    static int enemiesThinkingTime = 750;
+    int allyThinkingTime = 750;
+    int enemiesThinkingTime = 750;
 
 
     //Used to obtain the id of a clicked View (the card clicked)
@@ -429,6 +429,7 @@ class GameThread extends Thread {
                 });
                 return;
             case 1:
+            case 3:
                 // This will prevent too fast animations when time to think is low
                 if (gameActivity.enemiesThinkingTime < 500){
                     try {
@@ -449,17 +450,6 @@ class GameThread extends Thread {
                     }
                 }
                 playedCard = players.get(nextplayer).playCard(gameActivity.allyThinkingTime);
-                break;
-            case 3:
-                // This will prevent too fast animations when time to think is low
-                if (gameActivity.enemiesThinkingTime < 500){
-                    try {
-                        sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                playedCard = players.get(nextplayer).playCard(gameActivity.enemiesThinkingTime);
                 break;
         }
         currentGame.table.addPlayedCard(gameActivity.players.get(nextplayer),playedCard);
