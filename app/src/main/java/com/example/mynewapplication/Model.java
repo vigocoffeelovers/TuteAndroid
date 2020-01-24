@@ -8,12 +8,13 @@ public class Model {
     private String allyDifficulty;
     private String enemiesDifficulty;
     private int numOfGames;
-
+    private boolean firstPlayerRandom;
 
     private Model() {
         allyDifficulty = "Medium";
         enemiesDifficulty = "Medium";
         numOfGames = 7;
+        firstPlayerRandom = false;
     }
 
     // En caso de que no se haya declarado nunca (lo que implica que se está accediendo por pirmera vez)
@@ -25,7 +26,9 @@ public class Model {
         return __instance;
     }
 
-    // Mediante estas funciones podremos cambiar los ajustes
+    // Mediante estas funciones podremos cambiar los ajustes //
+
+
     public String getAllyDifficulty() {
         return allyDifficulty;
     }
@@ -48,5 +51,14 @@ public class Model {
 
     public void setNumOfGames(int numOfGames) {
         this.numOfGames = numOfGames;
+    }
+
+
+    public boolean isFirstPlayerRandom() {
+        return firstPlayerRandom;
+    }
+
+    public void setFirstPlayerRandom(boolean firstPlayerRandom) {
+        this.firstPlayerRandom = firstPlayerRandom;
     }
 }

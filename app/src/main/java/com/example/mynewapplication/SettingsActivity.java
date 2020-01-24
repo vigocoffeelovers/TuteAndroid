@@ -1,10 +1,12 @@
 package com.example.mynewapplication;
 
 import android.content.Intent;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -16,6 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
     RadioGroup levelMate;
     RadioGroup levelEnemies;
     RadioGroup numOfGames;
+    CheckBox firstPlayerRandom;
 
 
     @Override
@@ -40,6 +43,50 @@ public class SettingsActivity extends AppCompatActivity {
         levelMate = this.findViewById(R.id.level_mate);
         levelEnemies = this.findViewById(R.id.level_opponent);
         numOfGames = this.findViewById(R.id.num_games);
+        firstPlayerRandom = this.findViewById(R.id.first_p_random);
+
+        switch (Model.instance().getNumOfGames()){
+            case 1:
+                numOfGames.check(R.id.num_games_1);
+                break;
+            case 3:
+                numOfGames.check(R.id.num_games_3);
+                break;
+            case 5:
+                numOfGames.check(R.id.num_games_5);
+                break;
+        }
+
+        switch (Model.instance().getAllyDifficulty()){
+            case "Easy":
+                levelMate.check(R.id.mate_easy);
+                break;
+            case "Medium":
+                levelMate.check(R.id.mate_medium);
+                break;
+            case "Hard":
+                levelMate.check(R.id.mate_hard);
+                break;
+        }
+
+        switch (Model.instance().getEnemiesDifficulty()){
+            case "Easy":
+                levelEnemies.check(R.id.opponent_easy);
+                break;
+            case "Medium":
+                levelEnemies.check(R.id.opponent_medium);
+                break;
+            case "Hard":
+                levelEnemies.check(R.id.opponent_hard);
+                break;
+        }
+
+        if (Model.instance().isFirstPlayerRandom()){
+            firstPlayerRandom.setChecked(true);
+        } else {
+            firstPlayerRandom.setChecked(false);
+        }
+
     }
 
     public void changedLevelMate(View view){
@@ -58,6 +105,11 @@ public class SettingsActivity extends AppCompatActivity {
         int selected = numOfGames.getCheckedRadioButtonId();
         RadioButton selectedRadioButton= findViewById(selected);
         Model.instance().setNumOfGames(Integer.parseInt(selectedRadioButton.getText().toString()));
+    }
+
+    public void changedFirstPlayerRandom(View view) {
+        boolean selected = firstPlayerRandom.isChecked();
+        Model.instance().setFirstPlayerRandom(selected);
     }
 
     @Override
