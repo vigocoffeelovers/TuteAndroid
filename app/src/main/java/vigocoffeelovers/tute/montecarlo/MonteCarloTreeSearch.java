@@ -35,7 +35,7 @@ public class MonteCarloTreeSearch {
 
         do {
             Node nodeToExplore = rootNode.getRandomChildNode();
-            boolean hasWon = simulateRandomGame(nodeToExplore);
+            int hasWon = simulateRandomGame(nodeToExplore);
             backPropogation(nodeToExplore, hasWon);
         } while (System.currentTimeMillis() < end);
 
@@ -61,13 +61,12 @@ public class MonteCarloTreeSearch {
         });
     }
 
-    private void backPropogation(Node nodeToExplore, boolean hasWon) {
+    private void backPropogation(Node nodeToExplore, int hasWon) {
         nodeToExplore.getState().incrementVisit();
-        if (hasWon) //He ganado, entonces recompenso jugar esta carta
-            nodeToExplore.getState().addScore(WIN_SCORE);
+        nodeToExplore.getState().addScore(hasWon);
     }
 
-    private boolean simulateRandomGame(Node nodeToExplore) {
+    private int simulateRandomGame(Node nodeToExplore) {
 
         Game copyGame = new Game(nodeToExplore.getState().getGame()); //Creo una copia del estado actual del juego para poder simular sin alterar el original
 
@@ -99,7 +98,7 @@ public class MonteCarloTreeSearch {
             copyGame.table.removeCurrentPlay();
         }
 
-        return copyGame.getPoints(my_team) > copyGame.getPoints(my_team == 1 ? 2 : 1);
+        return copyGame.getPoints(my_team) - copyGame.getPoints(my_team == 1 ? 2 : 1);
 
     }
 
